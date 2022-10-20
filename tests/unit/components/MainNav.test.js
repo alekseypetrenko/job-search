@@ -51,7 +51,6 @@ describe("MainNav", () => {
       expect(subnav.exists()).toBe(false);
 
       const loginButton = wrapper.find("[data-test='login-button']");
-      console.log(loginButton);
       await loginButton.trigger("click");
       subnav = wrapper.find('[data-test="subnav"]');
       expect(subnav.exists()).toBe(true);
