@@ -7,6 +7,7 @@
       <div class="relative flex items-center flex-1 h-full pr-3">
         <label class="absolute left-0 -top-10">Role</label>
         <input
+          v-model="role"
           type="text"
           placeholder="Software engineer"
           class="w-full text-lg font-normal focus:outline-none"
@@ -19,13 +20,13 @@
       <div class="relative flex items-center flex-1 h-full pl-3">
         <label class="absolute left-0 -top-10">Where?</label>
         <input
+          v-model="location"
           type="text"
           placeholder="Los Angeles"
           class="w-full text-lg font-normal focus:outline-none"
         />
       </div>
     </div>
-
     <action-button text="Search" type="secondary" class="rounded-r-3xl" />
   </form>
 </template>
@@ -38,5 +39,12 @@ export default {
   components: {
     ActionButton,
   },
+  data() {
+    return {
+      role: "",
+      location: "",
+    };
+  },
+  methods: {},
 };
 </script>
