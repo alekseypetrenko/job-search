@@ -9,7 +9,9 @@
       <font-awesome-icon :icon="createIcon" />
     </div>
     <div v-if="isOpen" class="w-full mt-5">
-      <slot></slot>
+      <slot>
+        <p>Default text</p>
+      </slot>
     </div>
   </div>
 </template>

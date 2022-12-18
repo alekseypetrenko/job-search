@@ -9,33 +9,11 @@
           <ActionButton text="Clear filters" type="secondary" />
         </div>
       </div>
+      <Accordion header="Degree" />
       <Accordion header="Job Types">
         <p>tets</p>
       </Accordion>
-      <Accordion header="Organizations">
-        <div class="mt-5">
-          <fieldset>
-            <ul class="flex flex-row flex-wrap">
-              <li class="w-1/2 h-8">
-                <input class="mr-3" type="checkbox" id="VueTube" />
-                <label for="VueTube">VueTube</label>
-              </li>
-              <li class="w-1/2 h-8">
-                <input class="mr-3" type="checkbox" id="Between Vue and Me" />
-                <label for="Between Vue and Me">Between Vue</label>
-              </li>
-              <li class="w-1/2 h-8">
-                <input class="mr-3" type="checkbox" id="Et Vue Brute" />
-                <label for="Et Vue Brute">Et Vue Brute</label>
-              </li>
-              <li class="w-1/2 h-8">
-                <input class="mr-3" type="checkbox" id="Vue and a Half Men" />
-                <label for="Vue and a Half Men">Vue and a Half Men</label>
-              </li>
-            </ul>
-          </fieldset>
-        </div>
-      </Accordion>
+      <JobFilterSidebarOrganizations />
     </section>
   </div>
 </template>
@@ -44,8 +22,10 @@
 import ActionButton from "@/components/Shared/ActionButton.vue";
 import Accordion from "@/components/Shared/Accordion.vue";
 
+import JobFilterSidebarOrganizations from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarOrganizations";
+
 export default {
   name: "JobFiltersSidebar",
-  components: { ActionButton, Accordion },
+  components: { ActionButton, Accordion, JobFilterSidebarOrganizations },
 };
 </script>
