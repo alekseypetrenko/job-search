@@ -3,10 +3,13 @@
     <div
       class="flex flex-wrap items-center justify-between cursor-pointer"
       @click="open()"
+      data-test="clickable-area"
     >
-      <h3 class="text-bold font-semibold">Organizations</h3>
+      <h3 class="text-bold font-semibold">{{ header }}</h3>
       <font-awesome-icon :icon="createIcon" />
-      <div v-if="isOpen" class="w-full mt-5">Child</div>
+    </div>
+    <div v-if="isOpen" class="w-full mt-5">
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -14,6 +17,12 @@
 <script>
 export default {
   name: "Accordion",
+  props: {
+    header: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       isOpen: false,
@@ -26,7 +35,7 @@ export default {
   },
   computed: {
     createIcon() {
-      return this.isOpen ? "angle-up" : "angle-down";
+      return this.isOpen ? ["fas", "angle-up"] : ["fas", "angle-down"];
     },
   },
 };
