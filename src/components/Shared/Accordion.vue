@@ -2,8 +2,8 @@
   <div class="py-5 border-b border-solid border-brand-gray-2">
     <div
       class="flex flex-wrap items-center justify-between cursor-pointer"
-      @click="open()"
       data-test="clickable-area"
+      @click="open()"
     >
       <h3 class="text-bold font-semibold">{{ header }}</h3>
       <font-awesome-icon :icon="createIcon" />
@@ -30,14 +30,14 @@ export default {
       isOpen: false,
     };
   },
-  methods: {
-    open() {
-      this.isOpen = !this.isOpen;
-    },
-  },
   computed: {
     createIcon() {
       return this.isOpen ? ["fas", "angle-up"] : ["fas", "angle-down"];
+    },
+  },
+  methods: {
+    open() {
+      this.isOpen = !this.isOpen;
     },
   },
 };

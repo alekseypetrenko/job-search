@@ -4,19 +4,19 @@
       <fieldset>
         <ul class="flex flex-row flex-wrap">
           <li class="w-1/2 h-8">
-            <input class="mr-3" type="checkbox" id="VueTube" />
+            <input id="VueTube" class="mr-3" type="checkbox" />
             <label for="VueTube">VueTube</label>
           </li>
           <li class="w-1/2 h-8">
-            <input class="mr-3" type="checkbox" id="Between Vue and Me" />
+            <input id="Between Vue and Me" class="mr-3" type="checkbox" />
             <label for="Between Vue and Me">Between Vue</label>
           </li>
           <li class="w-1/2 h-8">
-            <input class="mr-3" type="checkbox" id="Et Vue Brute" />
+            <input id="Et Vue Brute" class="mr-3" type="checkbox" />
             <label for="Et Vue Brute">Et Vue Brute</label>
           </li>
           <li class="w-1/2 h-8">
-            <input class="mr-3" type="checkbox" id="Vue and a Half Men" />
+            <input id="Vue and a Half Men" class="mr-3" type="checkbox" />
             <label for="Vue and a Half Men">Vue and a Half Men</label>
           </li>
         </ul>
