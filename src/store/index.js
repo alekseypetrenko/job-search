@@ -14,8 +14,8 @@ export const mutations = {
 
 const store = createStore({
   state,
-  getters: {},
   mutations,
+  getters: {},
   actions: {},
   modules: {},
   strict: process.env.NODE_ENV !== "production",
