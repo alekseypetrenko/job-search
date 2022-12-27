@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { FETCH_JOBS } from "@/store/index";
 
 import JobListing from "./JobListing.vue";
@@ -66,7 +66,10 @@ export default {
     ...mapState(["jobs"]),
   },
   async mounted() {
-    this.$store.dispatch(FETCH_JOBS);
+    this.FETCH_JOBS();
+  },
+  methods: {
+    ...mapActions([FETCH_JOBS]),
   },
 };
 </script>
