@@ -31,7 +31,6 @@ describe("Spotlight", () => {
       },
     });
     await flushPromises();
-    console.log(wrapper.text());
     expect(wrapper.text()).toMatch("Some Image test");
   });
   it("provides title to parent component", async () => {

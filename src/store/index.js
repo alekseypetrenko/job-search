@@ -4,6 +4,7 @@ import getJobs from "@/api/getJobs";
 export const LOGIN_USER = "LOGIN_USER";
 export const RECIEVE_JOBS = "RECIEVE_JOBS";
 export const FETCH_JOBS = "FETCH_JOBS";
+export const UNIQUE_ORGANIZATIONS = "UNIQUE_ORGANIZATIONS";
 
 export const state = () => {
   return {
@@ -28,11 +29,22 @@ export const actions = {
   },
 };
 
+export const getters = {
+  [UNIQUE_ORGANIZATIONS](state) {
+    const uniqeORganizations = new Set();
+    state.jobs.forEach((job) => {
+      uniqeORganizations.add(job.organization);
+    });
+
+    return uniqeORganizations;
+  },
+};
+
 const store = createStore({
   state,
   mutations,
   actions,
-  getters: {},
+  getters,
   modules: {},
   strict: process.env.NODE_ENV !== "production",
 });
