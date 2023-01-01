@@ -5,11 +5,14 @@ export const LOGIN_USER = "LOGIN_USER";
 export const RECIEVE_JOBS = "RECIEVE_JOBS";
 export const FETCH_JOBS = "FETCH_JOBS";
 export const UNIQUE_ORGANIZATIONS = "UNIQUE_ORGANIZATIONS";
+export const ADD_SELECTED_ORGANIZATIONS = "ADD_SELECTED_ORGANIZATIONS";
+export const FILTERED_JOBS_BY_ORGANIZATIONS = "FILTERED_JOBS_BY_ORGANIZATIONS";
 
 export const state = () => {
   return {
     isLoggedIn: false,
     jobs: [],
+    selectedOrganizations: [],
   };
 };
 
@@ -19,6 +22,9 @@ export const mutations = {
   },
   [RECIEVE_JOBS](state, jobs) {
     state.jobs = jobs;
+  },
+  [ADD_SELECTED_ORGANIZATIONS](state, organizations) {
+    state.selectedOrganizations = organizations;
   },
 };
 
@@ -37,6 +43,16 @@ export const getters = {
     });
 
     return uniqeORganizations;
+  },
+
+  [FILTERED_JOBS_BY_ORGANIZATIONS](state) {
+    if (state.selectedOrganizations.length === 0) {
+      return state.jobs;
+    }
+
+    return state.jobs.filter((job) =>
+      state.selectedOrganizations.includes(job.organization),
+    );
   },
 };
 

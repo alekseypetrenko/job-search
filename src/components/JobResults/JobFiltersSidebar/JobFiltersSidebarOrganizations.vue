@@ -3,21 +3,22 @@
     <div class="mt-5">
       <fieldset>
         <ul class="flex flex-row flex-wrap">
-          <li class="w-1/2 h-8">
-            <input id="VueTube" class="mr-3" type="checkbox" />
-            <label for="VueTube">VueTube</label>
-          </li>
-          <li class="w-1/2 h-8">
-            <input id="Between Vue and Me" class="mr-3" type="checkbox" />
-            <label for="Between Vue and Me">Between Vue</label>
-          </li>
-          <li class="w-1/2 h-8">
-            <input id="Et Vue Brute" class="mr-3" type="checkbox" />
-            <label for="Et Vue Brute">Et Vue Brute</label>
-          </li>
-          <li class="w-1/2 h-8">
-            <input id="Vue and a Half Men" class="mr-3" type="checkbox" />
-            <label for="Vue and a Half Men">Vue and a Half Men</label>
+          <li
+            class="w-1/2 h-8"
+            v-for="organization in UNIQUE_ORGANIZATIONS"
+            :key="organization.id"
+          >
+            <input
+              :id="organization.id"
+              v-model="selectedOrganizations"
+              :value="organization"
+              class="mr-3"
+              type="checkbox"
+              @change="selectOrganization"
+            />
+            <label :for="organization.id" data-test="organization">{{
+              organization
+            }}</label>
           </li>
         </ul>
       </fieldset>
@@ -26,10 +27,30 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+import {
+  UNIQUE_ORGANIZATIONS,
+  ADD_SELECTED_ORGANIZATIONS,
+} from "@/store/index";
+
 import Accordion from "@/components/Shared/Accordion";
 
 export default {
   name: "JobFilterSidebarOrganizations",
   components: { Accordion },
+  data() {
+    return {
+      selectedOrganizations: [],
+    };
+  },
+  computed: {
+    ...mapGetters([UNIQUE_ORGANIZATIONS]),
+  },
+  methods: {
+    ...mapMutations([ADD_SELECTED_ORGANIZATIONS]),
+    selectOrganization() {
+      this.ADD_SELECTED_ORGANIZATIONS(this.selectedOrganizations);
+    },
+  },
 };
 </script>

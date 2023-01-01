@@ -15,8 +15,8 @@ describe("JobListings", () => {
   });
 
   const createStore = (config = {}) => ({
-    state: {
-      jobs: Array(15).fill({}),
+    getters: {
+      FILTERED_JOBS_BY_ORGANIZATIONS: [],
     },
     dispatch: jest.fn(),
     ...config,
@@ -52,8 +52,8 @@ describe("JobListings", () => {
     };
     const $route = createRoute(queryParams);
     const $store = createStore({
-      state: {
-        jobs: Array(15).fill({}),
+      getters: {
+        FILTERED_JOBS_BY_ORGANIZATIONS: Array(15).fill({}),
       },
     });
     const wrapper = shallowMount(JobListings, createConfig($route, $store));
@@ -100,8 +100,8 @@ describe("JobListings", () => {
       };
       const $route = createRoute(queryParams);
       const $store = createStore({
-        state: {
-          jobs: Array(15).fill({}),
+        getters: {
+          FILTERED_JOBS_BY_ORGANIZATIONS: Array(15).fill({}),
         },
       });
       const wrapper = mount(JobListings, createConfig($route, $store));
@@ -118,8 +118,8 @@ describe("JobListings", () => {
       };
       const $route = createRoute(queryParams);
       const $store = createStore({
-        state: {
-          jobs: Array(15).fill({}),
+        getters: {
+          FILTERED_JOBS_BY_ORGANIZATIONS: Array(15).fill({}),
         },
       });
       const wrapper = mount(JobListings, createConfig($route, $store));
@@ -134,8 +134,8 @@ describe("JobListings", () => {
       };
       const $route = createRoute(queryParams);
       const $store = createStore({
-        state: {
-          jobs: Array(15).fill({}),
+        getters: {
+          FILTERED_JOBS_BY_ORGANIZATIONS: Array(15).fill({}),
         },
       });
       const wrapper = mount(JobListings, createConfig($route, $store));
