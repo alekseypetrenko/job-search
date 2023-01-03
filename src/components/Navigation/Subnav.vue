@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { FILTERED_JOBS_BY_ORGANIZATIONS } from "@/store/index";
+import { FILTERED_JOBS_BY_ORGANIZATIONS } from "@/store/constants";
 
 import { mapGetters } from "vuex";
 

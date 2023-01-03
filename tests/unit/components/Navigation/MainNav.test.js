@@ -1,5 +1,4 @@
 import { shallowMount, RouterLinkStub } from "@vue/test-utils";
-import { createStore } from "vuex";
 
 import MainNav from "@/components/Navigation/MainNav.vue";
 

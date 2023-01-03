@@ -32,7 +32,7 @@ import { mapGetters, mapMutations } from "vuex";
 import {
   UNIQUE_ORGANIZATIONS,
   ADD_SELECTED_ORGANIZATIONS,
-} from "@/store/index";
+} from "@/store/constants";
 
 import Accordion from "@/components/Shared/Accordion";
 
