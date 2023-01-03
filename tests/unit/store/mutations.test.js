@@ -22,4 +22,11 @@ describe("mutations", () => {
       expect(state).toEqual({ selectedOrganizations: ["Youtube", "Google"] });
     });
   });
+  describe("ADD_SELECTED_JOB_TYPES", () => {
+    it("updates job types  that the user has chosen to filter by", () => {
+      const state = { selectedJobTypes: [] };
+      mutations.ADD_SELECTED_JOB_TYPES(state, ["Full-time", "Part-time"]);
+      expect(state).toEqual({ selectedJobTypes: ["Full-time", "Part-time"] });
+    });
+  });
 });

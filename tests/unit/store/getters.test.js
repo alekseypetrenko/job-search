@@ -33,25 +33,40 @@ describe("getters", () => {
         { organization: "Amazon" },
       ]);
     });
-  });
 
-  describe("when the user has not selected organizations", () => {
-    it("returns all jobs", () => {
-      const state = {
-        jobs: [
+    describe("when the user has not selected organizations", () => {
+      it("returns all jobs", () => {
+        const state = {
+          jobs: [
+            { organization: "Google" },
+            { organization: "Amazon" },
+            { organization: "Microsoft" },
+          ],
+          selectedOrganizations: [],
+        };
+
+        const filteredJobs = getters.FILTERED_JOBS_BY_ORGANIZATIONS(state);
+        expect(filteredJobs).toEqual([
           { organization: "Google" },
           { organization: "Amazon" },
           { organization: "Microsoft" },
+        ]);
+      });
+    });
+  });
+
+  describe("UNIQUE_JOB_TYPES", () => {
+    it("finds unique job types from the list of jobs", () => {
+      const state = {
+        jobs: [
+          { jobType: "Full-time" },
+          { jobType: "Part-time" },
+          { jobType: "Part-time" },
         ],
-        selectedOrganizations: [],
       };
 
-      const filteredJobs = getters.FILTERED_JOBS_BY_ORGANIZATIONS(state);
-      expect(filteredJobs).toEqual([
-        { organization: "Google" },
-        { organization: "Amazon" },
-        { organization: "Microsoft" },
-      ]);
+      const result = getters.UNIQUE_JOB_TYPES(state);
+      expect(result).toEqual(new Set(["Full-time", "Part-time"]));
     });
   });
 });

@@ -1,16 +1,17 @@
 import {
   UNIQUE_ORGANIZATIONS,
   FILTERED_JOBS_BY_ORGANIZATIONS,
+  UNIQUE_JOB_TYPES,
 } from "@/store/constants";
 
 const getters = {
   [UNIQUE_ORGANIZATIONS](state) {
-    const uniqeORganizations = new Set();
+    const uniqeOrganizations = new Set();
     state.jobs.forEach((job) => {
-      uniqeORganizations.add(job.organization);
+      uniqeOrganizations.add(job.organization);
     });
 
-    return uniqeORganizations;
+    return uniqeOrganizations;
   },
 
   [FILTERED_JOBS_BY_ORGANIZATIONS](state) {
@@ -21,6 +22,15 @@ const getters = {
     return state.jobs.filter((job) =>
       state.selectedOrganizations.includes(job.organization),
     );
+  },
+  [UNIQUE_JOB_TYPES](state) {
+    const uniqJobTypes = new Set();
+
+    state.jobs.forEach((job) => {
+      uniqJobTypes.add(job.jobType);
+    });
+
+    return uniqJobTypes;
   },
 };
 
