@@ -6,17 +6,18 @@
           <li
             class="w-1/2 h-8"
             v-for="organization in UNIQUE_ORGANIZATIONS"
-            :key="organization.id"
+            :key="organization"
           >
             <input
-              :id="organization.id"
+              :id="organization"
               v-model="selectedOrganizations"
               :value="organization"
               class="mr-3"
+              :data-test="organization"
               type="checkbox"
               @change="selectOrganization"
             />
-            <label :for="organization.id" data-test="organization">{{
+            <label :for="organization" data-test="organization">{{
               organization
             }}</label>
           </li>
