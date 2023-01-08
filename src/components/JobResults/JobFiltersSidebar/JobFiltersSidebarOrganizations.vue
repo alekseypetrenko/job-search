@@ -4,8 +4,8 @@
       <fieldset>
         <ul class="flex flex-row flex-wrap">
           <li
-            class="w-1/2 h-8"
             v-for="organization in UNIQUE_ORGANIZATIONS"
+            class="w-1/2 h-8"
             :key="organization"
           >
             <input
