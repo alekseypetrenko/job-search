@@ -5,8 +5,8 @@
         <ul class="flex flex-row flex-wrap">
           <li
             v-for="organization in UNIQUE_ORGANIZATIONS"
-            class="w-1/2 h-8"
             :key="organization"
+            class="w-1/2 h-8"
           >
             <input
               :id="organization"
