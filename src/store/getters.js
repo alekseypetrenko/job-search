@@ -1,6 +1,5 @@
 import {
   UNIQUE_ORGANIZATIONS,
-  FILTERED_JOBS_BY_ORGANIZATIONS,
   UNIQUE_JOB_TYPES,
   FILTERED_JOBS,
   INCLUDE_JOB_BY_ORGANIZATION,
@@ -15,16 +14,6 @@ const getters = {
     });
 
     return uniqeOrganizations;
-  },
-
-  [FILTERED_JOBS_BY_ORGANIZATIONS](state) {
-    if (state.selectedOrganizations.length === 0) {
-      return state.jobs;
-    }
-
-    return state.jobs.filter((job) =>
-      state.selectedOrganizations.includes(job.organization),
-    );
   },
   [UNIQUE_JOB_TYPES](state) {
     const uniqJobTypes = new Set();
