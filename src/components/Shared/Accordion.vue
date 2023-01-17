@@ -17,28 +17,30 @@
 </template>
 
 <script>
+import { ref, computed } from "vue";
+
 export default {
-  name: "Accordion",
   props: {
     header: {
       type: String,
       required: true,
     },
   },
-  data() {
+
+  setup() {
+    const isOpen = ref(false);
+
+    const open = () => (isOpen.value = !isOpen.value);
+
+    const createIcon = computed(() =>
+      isOpen.value ? ["fas", "angle-up"] : ["fas", "angle-down"],
+    );
+
     return {
-      isOpen: false,
+      isOpen,
+      open,
+      createIcon,
     };
-  },
-  computed: {
-    createIcon() {
-      return this.isOpen ? ["fas", "angle-up"] : ["fas", "angle-down"];
-    },
-  },
-  methods: {
-    open() {
-      this.isOpen = !this.isOpen;
-    },
   },
 };
 </script>
