@@ -5,8 +5,8 @@
         <ul class="flex flex-row flex-wrap">
           <li
             v-for="jobType in UNIQUE_JOB_TYPES"
-            class="w-1/2 h-8"
             :key="jobType"
+            class="w-1/2 h-8"
           >
             <input
               :id="jobType"
