@@ -61,7 +61,6 @@ export default {
       const pageNumber = this.currentPage;
       const firstJobIndex = (pageNumber - 1) * 10;
       const lastJobIndex = pageNumber * 10;
-
       return this.FILTERED_JOBS.slice(firstJobIndex, lastJobIndex);
     },
   },

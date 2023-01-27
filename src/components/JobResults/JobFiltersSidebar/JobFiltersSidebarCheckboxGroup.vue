@@ -29,7 +29,7 @@ import { useRouter } from "vue-router";
 import Accordion from "@/components/Shared/Accordion";
 
 export default {
-  name: "JobFilterSidebarCheckboxGroup",
+  name: "JobFiltersSidebarCheckboxGroup",
   components: { Accordion },
   props: {
     header: {
@@ -51,12 +51,14 @@ export default {
 
     const selectedValues = ref([]);
 
+    console.log(selectedValues.value);
+
     const selectValue = () => {
       store.commit(props.mutation, selectedValues.value);
       router.push({ name: "JobResults" });
     };
 
-    return selectedValues, { selectValue };
+    return { selectedValues, selectValue };
   },
 };
 </script>
