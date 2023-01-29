@@ -51,8 +51,6 @@ export default {
 
     const selectedValues = ref([]);
 
-    console.log(selectedValues.value);
-
     const selectValue = () => {
       store.commit(props.mutation, selectedValues.value);
       router.push({ name: "JobResults" });

@@ -12,13 +12,13 @@
       <Accordion header="Degree" />
 
       <JobFiltersSidebarCheckboxGroup
-        header="Job Types"
+        header="Organizations"
         :unique-values="uniqueOrganizations"
         :mutation="ADD_SELECTED_ORGANIZATIONS"
       />
 
       <JobFiltersSidebarCheckboxGroup
-        header="Organizations"
+        header="Job Types"
         :unique-values="uniqueJobTypes"
         :mutation="ADD_SELECTED_JOB_TYPES"
       />
