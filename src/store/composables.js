@@ -27,6 +27,5 @@ export const useUniqueOrganizations = () => {
 /* ACTIONS */
 export const useFetchJobsDispatch = () => {
   const store = useStore();
-  console.log(store);
   store.dispatch(FETCH_JOBS);
 };
