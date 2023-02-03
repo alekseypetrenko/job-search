@@ -7,6 +7,6 @@ export interface Job {
   locations: string[];
   minimumQualifications: string[];
   preferredQualifications: string[];
-  description: string;
+  description: string[];
   dateAdded: string;
 }
