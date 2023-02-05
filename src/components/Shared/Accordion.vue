@@ -17,9 +17,10 @@
 </template>
 
 <script>
+import { defineComponent } from "vue";
 import { ref, computed } from "vue";
 
-export default {
+export default defineComponent({
   props: {
     header: {
       type: String,
@@ -42,5 +43,5 @@ export default {
       createIcon,
     };
   },
-};
+});
 </script>
