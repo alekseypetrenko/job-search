@@ -1,6 +1,5 @@
 import { mount } from "@vue/test-utils";
-import Accordion from "@/components/Shared/Accordion";
-import { config } from "@fortawesome/fontawesome-svg-core";
+import Accordion from "@/components/Shared/Accordion.vue";
 
 describe("Accordion", () => {
   const createConfig = (config = {}) => ({
