@@ -12,15 +12,17 @@
       <Accordion header="Degree" />
 
       <JobFiltersSidebarCheckboxGroup
-        header="Organizations"
-        :unique-values="uniqueOrganizations"
-        :mutation="ADD_SELECTED_ORGANIZATIONS"
-      />
-
-      <JobFiltersSidebarCheckboxGroup
         header="Job Types"
         :unique-values="uniqueJobTypes"
         :mutation="ADD_SELECTED_JOB_TYPES"
+        data-test="job-types-filter"
+      />
+
+      <JobFiltersSidebarCheckboxGroup
+        header="Organizations"
+        :unique-values="uniqueOrganizations"
+        :mutation="ADD_SELECTED_ORGANIZATIONS"
+        data-test="organizations-filter"
       />
     </section>
   </div>
@@ -33,8 +35,7 @@ import ActionButton from "@/components/Shared/ActionButton.vue";
 import Accordion from "@/components/Shared/Accordion.vue";
 import JobFiltersSidebarCheckboxGroup from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarCheckboxGroup.vue";
 
-import { useUniqueJobTypes } from "@/store/composables";
-import { useUniqueOrganizations } from "@/store/composables";
+import { useUniqueOrganizations, useUniqueJobTypes } from "@/store/composables";
 
 import {
   ADD_SELECTED_JOB_TYPES,
