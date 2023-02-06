@@ -6,16 +6,19 @@ import {
   RouterLinkStub,
   mount,
 } from "@vue/test-utils";
-import JobListings from "@/components/JobResults/JobListings";
+import JobListings from "@/components/JobResults/JobListings.vue";
 
 import { useFilteredJobs, useFetchJobsDispatch } from "@/store/composables";
 jest.mock("@/store/composables");
+const useFilteredJobsMock = useFilteredJobs as jest.Mock;
 
 import useCurrentPage from "@/composables/useCurrentPage";
 jest.mock("@/composables/useCurrentPage");
+const useCurrentPageMock = useCurrentPage as jest.Mock;
 
 import usePeviousAndNextPage from "@/composables/usePeviousAndNextPage";
 jest.mock("@/composables/usePeviousAndNextPage");
+const usePeviousAndNextPageMock = usePeviousAndNextPage as jest.Mock;
 
 describe("JobListings", () => {
   const createConfig = () => ({
@@ -28,12 +31,12 @@ describe("JobListings", () => {
 
   describe("when component mounts", () => {
     it("makes call to fetch jobs from API", () => {
-      useFilteredJobs.mockReturnValue({ value: [] });
-      useCurrentPage.mockReturnValue({ value: 2 });
-      usePeviousAndNextPage.mockReturnValue(
-        { previousPage: 1 },
-        { nextPage: 3 },
-      );
+      useFilteredJobsMock.mockReturnValue({ value: [] });
+      useCurrentPageMock.mockReturnValue({ value: 2 });
+      usePeviousAndNextPageMock.mockReturnValue({
+        previousPage: 1,
+        nextPage: 3,
+      });
 
       shallowMount(JobListings, createConfig());
       expect(useFetchJobsDispatch).toHaveBeenCalled();
@@ -41,12 +44,12 @@ describe("JobListings", () => {
   });
 
   it("creates job listing for a maximum of 10 jobs", async () => {
-    useFilteredJobs.mockReturnValue({ value: Array(15).fill({}) });
-    useCurrentPage.mockReturnValue({ value: 1 });
-    usePeviousAndNextPage.mockReturnValue(
-      { previousPage: undefined },
-      { nextPage: 2 },
-    );
+    useFilteredJobsMock.mockReturnValue({ value: Array(15).fill({}) });
+    useCurrentPageMock.mockReturnValue({ value: 1 });
+    usePeviousAndNextPageMock.mockReturnValue({
+      previousPage: undefined,
+      nextPage: 2,
+    });
 
     const wrapper = shallowMount(JobListings, createConfig());
     await flushPromises();
@@ -55,9 +58,9 @@ describe("JobListings", () => {
   });
 
   it("displays page number ", () => {
-    useFilteredJobs.mockReturnValue({ value: [] });
-    useCurrentPage.mockReturnValue(ref(5));
-    usePeviousAndNextPage.mockReturnValue({ previousPage: 4 }, { nextPage: 6 });
+    useFilteredJobsMock.mockReturnValue({ value: [] });
+    useCurrentPageMock.mockReturnValue(ref(5));
+    usePeviousAndNextPageMock.mockReturnValue({ previousPage: 4, nextPage: 6 });
 
     const wrapper = shallowMount(JobListings, createConfig());
     expect(wrapper.text()).toMatch("Page 5");
@@ -65,12 +68,12 @@ describe("JobListings", () => {
 
   describe("when a user is on the first page ", () => {
     it("doesn't show previous page", () => {
-      useFilteredJobs.mockReturnValue({ value: [] });
-      useCurrentPage.mockReturnValue(ref(1));
-      usePeviousAndNextPage.mockReturnValue(
-        { previousPage: undefined },
-        { nextPage: 2 },
-      );
+      useFilteredJobsMock.mockReturnValue({ value: [] });
+      useCurrentPageMock.mockReturnValue(ref(1));
+      usePeviousAndNextPageMock.mockReturnValue({
+        previousPage: undefined,
+        nextPage: 2,
+      });
 
       const wrapper = mount(JobListings, createConfig());
       const previousLink = wrapper.find('[data-test="previous-link"]');
@@ -78,9 +81,9 @@ describe("JobListings", () => {
     });
 
     it("shows next page", async () => {
-      useFilteredJobs.mockReturnValue({ value: [] });
-      useCurrentPage.mockReturnValue(ref(1));
-      usePeviousAndNextPage.mockReturnValue({
+      useFilteredJobsMock.mockReturnValue({ value: [] });
+      useCurrentPageMock.mockReturnValue(ref(1));
+      usePeviousAndNextPageMock.mockReturnValue({
         previousPage: undefined,
         nextPage: 2,
       });
@@ -94,12 +97,12 @@ describe("JobListings", () => {
 
   describe("when a user on the last page", () => {
     it("doesn't show next page", async () => {
-      useFilteredJobs.mockReturnValue({ value: [] });
-      useCurrentPage.mockReturnValue(ref(2));
-      usePeviousAndNextPage.mockReturnValue(
-        { previousPage: 1 },
-        { nextPage: undefined },
-      );
+      useFilteredJobsMock.mockReturnValue({ value: [] });
+      useCurrentPageMock.mockReturnValue(ref(2));
+      usePeviousAndNextPageMock.mockReturnValue({
+        previousPage: 1,
+        nextPage: undefined,
+      });
 
       const wrapper = mount(JobListings, createConfig());
       const nextPage = wrapper.find('[data-test="next-link"]');
@@ -108,12 +111,12 @@ describe("JobListings", () => {
       expect(nextPage.exists()).toBe(false);
     });
     it("shows previous page", async () => {
-      useFilteredJobs.mockReturnValue({ value: [] });
-      useCurrentPage.mockReturnValue(ref(2));
-      usePeviousAndNextPage.mockReturnValue(
-        { previousPage: 1 },
-        { nextPage: undefined },
-      );
+      useFilteredJobsMock.mockReturnValue({ value: [] });
+      useCurrentPageMock.mockReturnValue(ref(2));
+      usePeviousAndNextPageMock.mockReturnValue({
+        previousPage: 1,
+        nextPage: undefined,
+      });
 
       const wrapper = mount(JobListings, createConfig());
       const previousPage = wrapper.find('[data-test="previous-link"]');
