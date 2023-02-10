@@ -19,6 +19,6 @@ describe("state", () => {
   });
   it("stores degrees that user would like to filter by", () => {
     const startingState = state();
-    expect(startingState.degrees).toEqual([]);
+    expect(startingState.selectedDegrees).toEqual([]);
   });
 });
