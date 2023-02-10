@@ -2,10 +2,11 @@ import axios from "axios";
 jest.mock("axios");
 
 import getJobs from "@/api/getJobs";
+const axiosGetMock = axios.get as jest.Mock;
 
 describe("getJobs", () => {
   beforeEach(() => {
-    axios.get.mockResolvedValue({
+    axiosGetMock.mockResolvedValue({
       data: [
         {
           id: 1,
@@ -17,7 +18,7 @@ describe("getJobs", () => {
 
   it("fethes jobs that candidate can apply to", async () => {
     await getJobs();
-    expect(axios.get).toHaveBeenCalledWith("http://myfakeapi.com/jobs");
+    expect(axiosGetMock).toHaveBeenCalledWith("http://myfakeapi.com/jobs");
   });
 
   it("extracts jobs from response", async () => {
