@@ -40,4 +40,12 @@ describe("mutations", () => {
       expect(state.selectedJobTypes).toEqual(["Full-time", "Part-time"]);
     });
   });
+
+  describe("ADD_SELECTED_DEGREES", () => {
+    it("keeps track of which degree the user has chosen to filter job by", () => {
+      const state = createState({ selectedDegrees: [] });
+      mutations.ADD_SELECTED_DEGREES(state, ["Associate", "Bachelor"]);
+      expect(state.selectedDegrees).toEqual(["Associate", "Bachelor"]);
+    });
+  });
 });
