@@ -9,6 +9,7 @@ import {
   useUniqueOrganizations,
   useFetchJobsDispatch,
   useUniqueDegrees,
+  useFetchDegreesDispatch,
 } from "@/store/composables";
 
 describe("composables", () => {
@@ -72,6 +73,18 @@ describe("composables", () => {
 
       useFetchJobsDispatch();
       expect(dispatch).toHaveBeenCalledWith("FETCH_JOBS");
+    });
+  });
+
+  describe("useFetchDegreesDispatch", () => {
+    it("send call to fetch degrees from API", () => {
+      const dispatch = jest.fn();
+      useStoreMock.mockReturnValue({
+        dispatch,
+      });
+
+      useFetchDegreesDispatch();
+      expect(dispatch).toHaveBeenCalledWith("FETCH_DEGREES");
     });
   });
 });
