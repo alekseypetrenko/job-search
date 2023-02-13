@@ -37,7 +37,11 @@ import { onMounted, computed, defineComponent } from "vue";
 
 import JobListing from "./JobListing.vue";
 
-import { useFilteredJobs, useFetchJobsDispatch } from "@/store/composables";
+import {
+  useFilteredJobs,
+  useFetchJobsDispatch,
+  useFetchDegreesDispatch,
+} from "@/store/composables";
 import useCurrentPage from "@/composables/useCurrentPage";
 import usePeviousAndNextPage from "@/composables/usePeviousAndNextPage";
 
@@ -46,6 +50,7 @@ export default defineComponent({
   components: { JobListing },
   setup() {
     onMounted(useFetchJobsDispatch);
+    onMounted(useFetchDegreesDispatch);
 
     const filteredJobs = useFilteredJobs();
 

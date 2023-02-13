@@ -1,5 +1,5 @@
 import mutations from "@/store/mutations";
-import { createState, createJob } from "./utils";
+import { createState, createJob, createDegree } from "./utils";
 
 describe("mutations", () => {
   describe("LOGIN_USER", () => {
@@ -18,6 +18,14 @@ describe("mutations", () => {
       expect(state.jobs).toEqual([job1, job2]);
     });
   });
+  describe("RECIEVE_DEGREES", () => {
+    it("recieves degrees from API response", () => {
+      const state = createState({ degrees: [] });
+      const degree = createDegree();
+      mutations.RECIEVE_DEGREES(state, [degree]);
+      expect(state.degrees).toEqual([degree]);
+    });
+  });
   describe("ADD_SELECTED_ORGANIZATIONS", () => {
     it("updates organizations that the user has chosen to filter jobs by", () => {
       const state = createState({ selectedOrganizations: [] });
@@ -30,6 +38,14 @@ describe("mutations", () => {
       const state = createState({ selectedJobTypes: [] });
       mutations.ADD_SELECTED_JOB_TYPES(state, ["Full-time", "Part-time"]);
       expect(state.selectedJobTypes).toEqual(["Full-time", "Part-time"]);
+    });
+  });
+
+  describe("ADD_SELECTED_DEGREES", () => {
+    it("keeps track of which degree the user has chosen to filter job by", () => {
+      const state = createState({ selectedDegrees: [] });
+      mutations.ADD_SELECTED_DEGREES(state, ["Associate", "Bachelor"]);
+      expect(state.selectedDegrees).toEqual(["Associate", "Bachelor"]);
     });
   });
 });
