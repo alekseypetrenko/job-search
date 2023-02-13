@@ -1,4 +1,5 @@
 import { shallowMount } from "@vue/test-utils";
+jest.mock("vuex");
 
 import JobFiltersSidebar from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebar.vue";
 
