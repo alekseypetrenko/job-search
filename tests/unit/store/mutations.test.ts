@@ -48,4 +48,18 @@ describe("mutations", () => {
       expect(state.selectedDegrees).toEqual(["Associate", "Bachelor"]);
     });
   });
+
+  describe("CLEAR_USER_JOB_FILTER_SELECTIONS", () => {
+    it("removes all job filters that use has chosen", () => {
+      const startingState = createState({
+        selectedDegrees: ["Master"],
+        selectedJobTypes: ["UI"],
+        selectedOrganizations: ["Google"],
+      });
+      mutations.CLEAR_USER_JOB_FILTER_SELECTIONS(startingState);
+      expect(startingState.selectedDegrees).toEqual([]);
+      expect(startingState.selectedJobTypes).toEqual([]);
+      expect(startingState.selectedOrganizations).toEqual([]);
+    });
+  });
 });
