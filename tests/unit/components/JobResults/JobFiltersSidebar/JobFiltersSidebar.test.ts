@@ -25,8 +25,7 @@ describe("JobFiltersSidebar", () => {
       '[data-test="job-types-filter"]',
     );
 
-    const { header, uniqueValues, mutation } = jobTypesFilter.props();
-    expect(header).toBe("Job Types");
+    const { uniqueValues, mutation } = jobTypesFilter.props();
     expect(uniqueValues).toEqual(new Set(["Full-time", "Part-time"]));
     expect(mutation).toBe("ADD_SELECTED_JOB_TYPES");
   });
@@ -41,8 +40,8 @@ describe("JobFiltersSidebar", () => {
       '[data-test="organizations-filter"]',
     );
 
-    const { header, uniqueValues, mutation } = orgnizationsFilter.props();
-    expect(header).toBe("Organizations");
+    const { uniqueValues, mutation } = orgnizationsFilter.props();
+
     expect(uniqueValues).toEqual(new Set(["Airbnb"]));
     expect(mutation).toBe("ADD_SELECTED_ORGANIZATIONS");
   });
@@ -57,8 +56,8 @@ describe("JobFiltersSidebar", () => {
       '[data-test="degrees-filter"]',
     );
 
-    const { header, uniqueValues, mutation } = orgnizationsFilter.props();
-    expect(header).toBe("Degrees");
+    const { uniqueValues, mutation } = orgnizationsFilter.props();
+
     expect(uniqueValues).toEqual(["Associate", "Bachelors"]);
     expect(mutation).toBe("ADD_SELECTED_DEGREES");
   });

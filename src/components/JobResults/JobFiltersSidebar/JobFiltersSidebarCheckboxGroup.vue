@@ -1,24 +1,22 @@
 <template>
-  <Accordion :header="header">
-    <div class="mt-5">
-      <fieldset>
-        <ul class="flex flex-row flex-wrap">
-          <li v-for="value in uniqueValues" :key="value" class="w-1/2 h-8">
-            <input
-              :id="value"
-              v-model="selectedValues"
-              :value="value"
-              class="mr-3"
-              :data-test="value"
-              type="checkbox"
-              @change="selectValue"
-            />
-            <label :for="value" data-test="value">{{ value }}</label>
-          </li>
-        </ul>
-      </fieldset>
-    </div>
-  </Accordion>
+  <div class="mt-5">
+    <fieldset>
+      <ul class="flex flex-row flex-wrap">
+        <li v-for="value in uniqueValues" :key="value" class="w-1/2 h-8">
+          <input
+            :id="value"
+            v-model="selectedValues"
+            :value="value"
+            class="mr-3"
+            :data-test="value"
+            type="checkbox"
+            @change="selectValue"
+          />
+          <label :for="value" data-test="value">{{ value }}</label>
+        </li>
+      </ul>
+    </fieldset>
+  </div>
 </template>
 
 <script lang="ts">
@@ -27,18 +25,11 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { key } from "@/store";
 
-import Accordion from "@/components/Shared/Accordion.vue";
-
 import { CLEAR_USER_JOB_FILTER_SELECTIONS } from "@/store/constants";
 
 export default defineComponent({
   name: "JobFiltersSidebarCheckboxGroup",
-  components: { Accordion },
   props: {
-    header: {
-      type: String,
-      required: true,
-    },
     uniqueValues: {
       type: [Array, Set] as PropType<string[] | Set<string>>,
       required: true,
