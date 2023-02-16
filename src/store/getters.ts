@@ -9,6 +9,7 @@ import {
   INCLUDE_JOB_BY_JOB_TYPE,
   UNIQUE_DEGREES,
   INCLUDE_JOB_BY_DEGREE,
+  INCLUDE_JOB_BY_SKILL,
 } from "@/store/constants";
 
 interface IncludeJobGetters {
@@ -53,6 +54,11 @@ const getters = {
     if (state.selectedDegrees.length === 0) return true;
 
     return state.selectedDegrees.includes(job.degree);
+  },
+  [INCLUDE_JOB_BY_SKILL]: (state: GlobalState) => (job: Job) => {
+    return job.title
+      .toLowerCase()
+      .includes(state.skillsSearchTerm.toLowerCase());
   },
   [FILTERED_JOBS](state: GlobalState, getters: IncludeJobGetters) {
     return state.jobs
