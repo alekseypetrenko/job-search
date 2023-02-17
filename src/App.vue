@@ -1,7 +1,7 @@
 <template>
   <!-- <main-nav />
   <router-view /> -->
-  TEST
+  <div class="w-full">frf</div>
 </template>
 
 <script lang="ts">

@@ -7,8 +7,8 @@
 //   faAngleUp,
 // } from "@fortawesome/free-solid-svg-icons";
 
+import "@/assets/tailwind.css";
 // import App from "./App.vue";
-// import "@/assets/tailwind.css";
 // import router from "@/router";
 // import store, { key } from "@/store";
 
