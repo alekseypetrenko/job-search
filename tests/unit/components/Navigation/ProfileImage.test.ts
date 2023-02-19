@@ -6,7 +6,7 @@ describe("ProfileImage", () => {
     render(ProfileImage);
 
     const profileImage = screen.queryByRole("img", {
-      name: "User profile image",
+      name: /user profile image/i,
     });
 
     expect(profileImage).toBeInTheDocument();
