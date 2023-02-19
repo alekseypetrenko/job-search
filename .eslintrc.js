@@ -8,8 +8,12 @@ module.exports = {
     "eslint:recommended",
     "@vue/eslint-config-typescript",
     "@vue/eslint-config-prettier",
+    "plugin:vitest-globals/recommended",
   ],
   parserOptions: {
     ecmaVersion: "latest",
+  },
+  env: {
+    "vitest-globals/env": true,
   },
 };
