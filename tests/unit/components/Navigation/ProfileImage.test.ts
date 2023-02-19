@@ -1,9 +1,14 @@
-import { mount } from "@vue/test-utils";
+import { render, screen } from "@testing-library/vue";
 import ProfileImage from "@/components/Navigation/ProfileImage.vue";
 
 describe("ProfileImage", () => {
   it("renders", () => {
-    const wrapper = mount(ProfileImage);
-    expect(wrapper.exists()).toBe(true);
+    render(ProfileImage);
+
+    const profileImage = screen.queryByRole("img", {
+      name: "User profile image",
+    });
+
+    expect(profileImage).toBeInTheDocument();
   });
 });
