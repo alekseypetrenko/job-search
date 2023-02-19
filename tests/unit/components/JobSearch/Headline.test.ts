@@ -1,39 +1,54 @@
+import { render, screen } from "@testing-library/vue";
+
 import { nextTick } from "vue";
-import { mount } from "@vue/test-utils";
 
 import Headline from "@/components/JobSearch/Headline.vue";
 
+import { vi } from "vitest";
+
 describe("Headline", () => {
   beforeEach(() => {
-    jest.useFakeTimers("legacy");
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
   });
 
   it("displays introductory action verb", () => {
-    const wrapper = mount(Headline);
-    const actionPhrase = wrapper.find("[data-test='action-phrase']");
-    expect(actionPhrase.text()).toBe("Build for everyone");
+    render(Headline);
+    const actionPhrase = screen.getByRole("heading", {
+      name: /build for everyone/i,
+    });
+    expect(actionPhrase).toBeInTheDocument();
   });
 
   it("changes action verb at a consistent interval", () => {
-    mount(Headline);
-    expect(setInterval).toHaveBeenCalled();
+    const mock = vi.fn();
+    vi.stubGlobal("setInterval", mock);
+    render(Headline);
+    expect(mock).toHaveBeenCalled();
   });
 
   it("swaps action verb after first interval", async () => {
-    const wrapper = mount(Headline);
-    jest.runOnlyPendingTimers();
+    render(Headline);
+
+    vi.advanceTimersToNextTimer();
     await nextTick();
-    const actionPhrase = wrapper.find("[data-test='action-phrase']");
-    expect(actionPhrase.text()).toBe("Create for everyone");
+
+    const actionPhrase = screen.getByRole("heading", {
+      name: /create for everyone/i,
+    });
+    expect(actionPhrase).toBeInTheDocument();
   });
 
   it("removes interval when component disappears", () => {
-    const wrapper = mount(Headline);
-    wrapper.unmount();
+    const clearInterval = vi.fn();
+    vi.stubGlobal("clearInterval", clearInterval);
+
+    const { unmount } = render(Headline);
+    unmount();
     expect(clearInterval).toHaveBeenCalled();
   });
 });
