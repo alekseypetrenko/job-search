@@ -1,9 +1,9 @@
 import { useRoute } from "vue-router";
-jest.mock("vue-router");
+vi.mock("vue-router");
 
 import useCurrentPage from "@/composables/useCurrentPage";
 
-const useRouteMock = useRoute as jest.Mock;
+const useRouteMock = useRoute as vi.Mock;
 
 describe("useCurrentPage", () => {
   describe("when query params include page", () => {
