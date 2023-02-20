@@ -1,6 +1,6 @@
 <template>
-  <!-- <main-nav />
-  <router-view /> -->
+  <!-- <main-nav /> -->
+  <router-view />
   <div class="w-full">frf</div>
 </template>
 

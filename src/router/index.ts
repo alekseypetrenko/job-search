@@ -12,21 +12,21 @@ const routes = [
     name: "Home",
     component: HomeView,
   },
-  {
-    path: "/jobs/results",
-    name: "JobResults",
-    component: JobResults,
-  },
-  {
-    path: "/jobs/results/:id",
-    name: "JobListing",
-    component: JobView,
-  },
-  {
-    path: "/teams",
-    name: "Teams",
-    component: TeamsView,
-  },
+  // {
+  //   path: "/jobs/results",
+  //   name: "JobResults",
+  //   component: JobResults,
+  // },
+  // {
+  //   path: "/jobs/results/:id",
+  //   name: "JobListing",
+  //   component: JobView,
+  // },
+  // {
+  //   path: "/teams",
+  //   name: "Teams",
+  //   component: TeamsView,
+  // },
 ];
 
 const router = createRouter({
