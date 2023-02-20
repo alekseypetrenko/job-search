@@ -1,19 +1,19 @@
-import { mount } from "@vue/test-utils";
+import { render, screen } from "@testing-library/vue";
 import TextInput from "@/components/Shared/TextInput.vue";
+import userEvent from "@testing-library/user-event";
 
 describe("TextInput", () => {
-  it("communicates that user entered character", () => {
-    const wrapper = mount(TextInput, {
+  it("communicates that user entered character", async () => {
+    const { emitted } = render(TextInput, {
       props: {
         modelValue: "",
       },
     });
 
-    const input = wrapper.find("input");
-    input.setValue("N");
-    input.setValue("NY");
-    input.setValue("NYC");
-    const messages = wrapper.emitted()["update:modelValue"];
+    const input = screen.getByRole("textbox");
+    await userEvent.type(input, "NYC");
+
+    const messages = emitted()["update:modelValue"];
     expect(messages).toEqual([["N"], ["NY"], ["NYC"]]);
   });
 });
