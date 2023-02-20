@@ -21,7 +21,7 @@ export default defineComponent({
     const spotlights = ref<Spotlight[]>([]);
 
     const getSpotlights = async () => {
-      const baseUrl = process.env.VUE_APP_API_URL;
+      const baseUrl = import.meta.env.VITE_APP_API_URL;
       const url = `${baseUrl}/spotlights`;
       const response = await axios.get(url);
       spotlights.value = response?.data;
