@@ -1,7 +1,4 @@
 import { shallowMount } from "@vue/test-utils";
-import { useStore } from "vuex";
-jest.mock("vuex");
-const useStoreMock = useStore as jest.Mock;
 
 import { useRouter } from "vue-router";
 jest.mock("vue-router");

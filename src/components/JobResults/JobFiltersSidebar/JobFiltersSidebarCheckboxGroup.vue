@@ -2,7 +2,7 @@
   <div class="mt-5">
     <fieldset>
       <ul class="flex flex-row flex-wrap">
-        <li v-for="value in uniqueValues" :key="value" class="w-1/2 h-8">
+        <li v-for="value in uniqueValues" :key="value" class="h-8 w-1/2">
           <input
             :id="value"
             v-model="selectedValues"
@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import { ref, defineComponent, PropType } from "vue";
-import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { key } from "@/store";
 
@@ -40,7 +39,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore(key);
     const router = useRouter();
 
     const selectedValues = ref<string[]>([]);

@@ -1,6 +1,3 @@
-import { useStore } from "vuex";
-jest.mock("vuex");
-
 const useStoreMock = useStore as jest.Mock;
 
 import {

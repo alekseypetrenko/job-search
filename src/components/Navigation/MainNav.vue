@@ -1,33 +1,33 @@
 <template>
   <header :class="['w-full', 'text-sm', headerHeight]">
-    <div class="fixed top-0 left-0 w-full h-16 bg-white">
+    <div class="fixed top-0 left-0 h-16 w-full bg-white">
       <div
-        class="flex flex-nowrap h-full px-8 mx-auto border-b border-solid border-brand-gray-1"
+        class="mx-auto flex h-full flex-nowrap border-b border-solid border-brand-gray-1 px-8"
       >
         <router-link
           :to="{ name: 'Home' }"
-          class="flex items-center h-full text-xl"
+          class="flex h-full items-center text-xl"
           >Oleksii</router-link
         >
 
-        <nav class="h-full ml-12">
-          <ul class="flex h-full p-0 m-0 list-none">
+        <nav class="ml-12 h-full">
+          <ul class="m-0 flex h-full list-none p-0">
             <li
               v-for="menuItem in menuItems"
               :key="menuItem.url"
-              class="h-full ml-9 first:ml-0"
+              class="ml-9 h-full first:ml-0"
               data-test="main-nav-list-item"
             >
               <router-link
                 :to="menuItem.url"
-                class="flex items-center h-full py-2.5"
+                class="flex h-full items-center py-2.5"
                 >{{ menuItem.text }}</router-link
               >
             </li>
           </ul>
         </nav>
 
-        <div class="flex items-center h-full ml-auto">
+        <div class="ml-auto flex h-full items-center">
           <profile-image v-if="isLoggedIn" data-test="profile-image" />
           <action-button
             v-else
@@ -44,8 +44,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
-import { mapState, mapMutations } from "vuex";
 
 import ActionButton from "@/components/Shared/ActionButton.vue";
 import ProfileImage from "@/components/Navigation/ProfileImage.vue";
@@ -72,16 +70,12 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapState(["isLoggedIn"]),
     headerHeight() {
       return {
         "h-16": !this.isLoggedIn,
         "h-32": this.isLoggedIn,
       };
     },
-  },
-  methods: {
-    ...mapMutations([LOGIN_USER]),
   },
 });
 </script>

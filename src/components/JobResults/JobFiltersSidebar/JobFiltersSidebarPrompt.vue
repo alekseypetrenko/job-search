@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useStore } from "vuex";
 import { key } from "@/store";
 
 import ActionButton from "@/components/Shared/ActionButton.vue";
@@ -27,8 +26,6 @@ export default defineComponent({
     ActionButton,
   },
   setup() {
-    const store = useStore(key);
-
     const clearUserJobFilterSelection = () => {
       store.commit(CLEAR_USER_JOB_FILTER_SELECTIONS);
     };
