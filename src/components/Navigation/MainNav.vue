@@ -7,7 +7,7 @@
         <router-link
           :to="{ name: 'Home' }"
           class="flex h-full items-center text-xl"
-          >Oleksii</router-link
+          >My Company</router-link
         >
 
         <nav class="ml-12 h-full">
@@ -28,12 +28,12 @@
         </nav>
 
         <div class="ml-auto flex h-full items-center">
-          <profile-image v-if="isLoggedIn" data-test="profile-image" />
+          <profile-image v-if="isLoggedIn" alt="User profile image" />
           <action-button
             v-else
             text="Sign In"
             data-test="login-button"
-            @click="LOGIN_USER()"
+            @click="loginUser()"
           />
         </div>
       </div>
@@ -48,7 +48,9 @@ import { defineComponent } from "vue";
 import ActionButton from "@/components/Shared/ActionButton.vue";
 import ProfileImage from "@/components/Navigation/ProfileImage.vue";
 import Subnav from "@/components/Navigation/Subnav.vue";
-import { LOGIN_USER } from "@/store/constants";
+
+import { mapActions, mapState } from "pinia";
+import { useUserStore } from "@/stores/user";
 
 export default defineComponent({
   name: "MainNav",
@@ -70,12 +72,17 @@ export default defineComponent({
     };
   },
   computed: {
+    ...mapState(useUserStore, ["isLoggedIn"]),
+
     headerHeight() {
       return {
         "h-16": !this.isLoggedIn,
         "h-32": this.isLoggedIn,
       };
     },
+  },
+  methods: {
+    ...mapActions(useUserStore, ["loginUser"]),
   },
 });
 </script>
