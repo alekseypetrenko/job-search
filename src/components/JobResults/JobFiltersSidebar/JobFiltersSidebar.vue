@@ -1,9 +1,10 @@
 <template>
   <div
-    class="flex flex-col p-4 bg-white border-r border-solid border-brand-gray-1 w-96"
+    class="flex w-96 flex-col border-r border-solid border-brand-gray-1 bg-white p-4"
   >
     <section class="pb-5">
-      <JobFiltersSidebarPrompt />
+      <Accordion header="Skills and Qualifictions"> 1 </Accordion>
+      <!-- <JobFiltersSidebarPrompt />
 
       <Accordion header="Skills and Qualifictions">
         <JobFilterSidebarSkills />
@@ -19,7 +20,7 @@
 
       <Accordion header="Degrees">
         <JobFiltersSidebarDegrees />
-      </Accordion>
+      </Accordion> -->
     </section>
   </div>
 </template>
@@ -28,21 +29,21 @@
 import { defineComponent } from "vue";
 
 import Accordion from "@/components/Shared/Accordion.vue";
-import JobFiltersSidebarJobTypes from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarJobTypes.vue";
-import JobFiltersSidebarDegrees from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarDegrees.vue";
-import JobFiltersSidebarOrganizations from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarOrganizations.vue";
-import JobFiltersSidebarPrompt from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarPrompt.vue";
-import JobFilterSidebarSkills from "@/components/JobResults/JobFiltersSidebar/JobFilterSidebarSkills.vue";
+// import JobFiltersSidebarJobTypes from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarJobTypes.vue";
+// import JobFiltersSidebarDegrees from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarDegrees.vue";
+// import JobFiltersSidebarOrganizations from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarOrganizations.vue";
+// import JobFiltersSidebarPrompt from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarPrompt.vue";
+// import JobFilterSidebarSkills from "@/components/JobResults/JobFiltersSidebar/JobFilterSidebarSkills.vue";
 
 export default defineComponent({
   name: "JobFiltersSidebar",
   components: {
     Accordion,
-    JobFiltersSidebarPrompt,
-    JobFiltersSidebarDegrees,
-    JobFiltersSidebarJobTypes,
-    JobFiltersSidebarOrganizations,
-    JobFilterSidebarSkills,
+    // JobFiltersSidebarPrompt,
+    // JobFiltersSidebarDegrees,
+    // JobFiltersSidebarJobTypes,
+    // JobFiltersSidebarOrganizations,
+    // JobFilterSidebarSkills,
   },
 });
 </script>
