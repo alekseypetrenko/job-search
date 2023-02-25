@@ -13,12 +13,12 @@
 <script lang="ts">
 import { ref, onMounted, defineComponent } from "vue";
 import axios from "axios";
-import { Spotlight } from "@/api/types";
+// import { Spotlight } from "@/api/types";
 
 export default defineComponent({
   name: "Spotlight",
   setup() {
-    const spotlights = ref<Spotlight[]>([]);
+    const spotlights = ref([]);
 
     const getSpotlights = async () => {
       const baseUrl = import.meta.env.VITE_APP_API_URL;

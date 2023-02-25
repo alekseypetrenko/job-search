@@ -6,7 +6,7 @@
 
         <div class="col-span-5 col-start-2">
           <headline />
-          <job-search-form />
+          <!-- <job-search-form /> -->
         </div>
 
         <div class="col-span-5 col-start-7 self-center justify-self-center">
@@ -20,15 +20,15 @@
         <div class="col-span-1 col-start-12"></div>
       </div>
     </section>
-    <!-- <spotlight class="flex flex-row justify-center pb-16">
+    <spotlight class="flex flex-row justify-center pb-16">
       <template #default="{ img, title, description }">
         <router-link
           to="/jobs/results"
-          class="flex flex-col mx-5 border rounded w-72 bg-brand-gray-2 h-96"
+          class="mx-5 flex h-96 w-72 flex-col rounded border bg-brand-gray-2"
         >
           <img :src="img" alt="" class="object-contain" />
 
-          <div class="h-48 px-6 py-4 mt-3">
+          <div class="mt-3 h-48 px-6 py-4">
             <h3 class="text-lg font-medium">
               {{ title }}
             </h3>
@@ -46,7 +46,7 @@
           </div>
         </router-link>
       </template>
-    </spotlight> -->
+    </spotlight>
   </main>
 </template>
 
@@ -54,10 +54,10 @@
 import { defineComponent } from "vue";
 import Headline from "@/components/JobSearch/Headline.vue";
 import JobSearchForm from "@/components/JobSearch/JobSearchForm.vue";
-// import Spotlight from "@/components/JobSearch/Spotlight.vue";
+import Spotlight from "@/components/JobSearch/Spotlight.vue";
 
 export default defineComponent({
   name: "Hero",
-  components: { Headline, JobSearchForm },
+  components: { Headline, JobSearchForm, Spotlight },
 });
 </script>

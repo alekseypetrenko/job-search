@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-auto p-8 bg-brand-gray-2">
+  <main class="flex-auto bg-brand-gray-2 p-8">
     <ol>
       <job-listing
         v-for="job in displayedJobs"
@@ -8,10 +8,10 @@
         data-test="job-listing"
       />
     </ol>
-    <div class="mt-8 mx-auto">
+    <div class="mx-auto mt-8">
       <div class="flex flex-row flex-nowrap">
-        <p class="text-sm flex-grow">Page {{ currentPage }}</p>
-        <div class="flex item-center justify-center">
+        <p class="flex-grow text-sm">Page {{ currentPage }}</p>
+        <div class="item-center flex justify-center">
           <router-link
             v-if="previousPage"
             :to="{ name: 'JobResults', query: { page: previousPage } }"
@@ -32,45 +32,38 @@
   </main>
 </template>
 
-<script lang="ts">
-import { onMounted, computed, defineComponent } from "vue";
-
+<script lang="ts" setup>
+import { onMounted, computed } from "vue";
+import { useJobsStore } from "@/stores/jobs";
 import JobListing from "./JobListing.vue";
-
-import {
-  useFilteredJobs,
-  useFetchJobsDispatch,
-  useFetchDegreesDispatch,
-} from "@/store/composables";
 import useCurrentPage from "@/composables/useCurrentPage";
-import usePeviousAndNextPage from "@/composables/usePeviousAndNextPage";
 
-export default defineComponent({
-  name: "JobListings",
-  components: { JobListing },
-  setup() {
-    onMounted(useFetchJobsDispatch);
-    onMounted(useFetchDegreesDispatch);
+const jobStore = useJobsStore();
+onMounted(jobStore.FETCH_JOBS);
 
-    const filteredJobs = useFilteredJobs();
+const currentPage = useCurrentPage();
 
-    const currentPage = useCurrentPage();
+const previousPage = computed(() => {
+  const previousPage = currentPage.value - 1;
+  const firstPage = 1;
 
-    const maxPage = computed(() => Math.ceil(filteredJobs.value.length / 10));
+  return previousPage >= firstPage ? previousPage : undefined;
+});
 
-    const { previousPage, nextPage } = usePeviousAndNextPage(
-      currentPage,
-      maxPage,
-    );
+const jobs = computed(() => jobStore.ALL_JOBS);
 
-    const displayedJobs = computed(() => {
-      const pageNumber = currentPage.value;
-      const firstJobIndex = (pageNumber - 1) * 10;
-      const lastJobIndex = pageNumber * 10;
-      return filteredJobs.value.slice(firstJobIndex, lastJobIndex);
-    });
+const nextPage = computed(() => {
+  const nextPage = currentPage.value + 1;
+  const maxPage = Math.ceil(jobs.value.length / 10);
 
-    return { currentPage, previousPage, nextPage, displayedJobs };
-  },
+  return nextPage <= maxPage ? nextPage : undefined;
+});
+
+const displayedJobs = computed(() => {
+  const pageNumber = currentPage.value;
+  const firstJobIndex = (pageNumber - 1) * 10;
+  const lastJobIndex = pageNumber * 10;
+
+  return jobs.value.slice(firstJobIndex, lastJobIndex);
 });
 </script>

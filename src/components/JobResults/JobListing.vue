@@ -2,9 +2,9 @@
   <li class="mb-7">
     <router-link
       :to="jobPageLink"
-      class="block mx-auto bg-white border border-solid bolid-brand-gray-2 rounded hover:shadow-gray"
+      class="bolid-brand-gray-2 mx-auto block rounded border border-solid bg-white hover:shadow-gray"
     >
-      <div class="pt-5 pd2 mx-8 border-b border-solid border-brand-gray-2">
+      <div class="pd2 mx-8 border-b border-solid border-brand-gray-2 pt-5">
         <h2 class="mb-2 text-2xl">{{ job.title }}</h2>
 
         <div class="flex flex-row align-middle">
@@ -16,7 +16,7 @@
               <li
                 v-for="location in job.locations"
                 :key="location"
-                class="inline-block mr-5"
+                class="mr-5 inline-block"
               >
                 {{ location }}
               </li>
@@ -28,7 +28,7 @@
         <div>
           <h3 class="mt-1 mb-2">Qualifications:</h3>
           <div>
-            <ul class="pl-8 list-disc">
+            <ul class="list-disc pl-8">
               <li
                 v-for="qualification in job.minimumQualifications"
                 :key="qualification"
@@ -49,14 +49,13 @@
 </template>
 
 <script lang="ts">
-import { Job } from "@/api/types";
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   name: "JobListing",
   props: {
     job: {
-      type: Object as PropType<Job>,
+      type: Object,
       required: true,
     },
   },
