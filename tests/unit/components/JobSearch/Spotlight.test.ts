@@ -1,13 +1,14 @@
-import { mount, flushPromises } from "@vue/test-utils";
+// import { mount, flushPromises } from "@vue/test-utils";
+import { render, screen } from "@testing-library/vue";
 import axios from "axios";
-jest.mock("axios");
-const axiosGetMock = axios.get as jest.Mock;
+vi.mock("axios");
+// const axiosGetMock = axios.get as jest.Mock;
 
 import Spotlight from "@/components/JobSearch/Spotlight.vue";
 
 describe("Spotlight", () => {
   const mockSpotlightResponse = (data = {}) => {
-    axiosGetMock.mockResolvedValue({
+    axios.get.mockResolvedValue({
       data: [
         {
           img: "Some image",
@@ -22,7 +23,7 @@ describe("Spotlight", () => {
   it("provides img to parent component", async () => {
     const data = { img: "Some Image test" };
     mockSpotlightResponse(data);
-    const wrapper = mount(Spotlight, {
+    render(Spotlight, {
       slots: {
         default: `
         <template #default="slotProps">
@@ -31,13 +32,14 @@ describe("Spotlight", () => {
         `,
       },
     });
-    await flushPromises();
-    expect(wrapper.text()).toMatch("Some Image test");
+    // await flushPromises();
+    const imageText = await screen.findByText("Some Image test");
+    expect(imageText).toBeInTheDocument();
   });
   it("provides title to parent component", async () => {
     const data = { title: "Title test" };
     mockSpotlightResponse(data);
-    const wrapper = mount(Spotlight, {
+    render(Spotlight, {
       slots: {
         default: `
         <template #default="slotProps">
@@ -46,13 +48,13 @@ describe("Spotlight", () => {
         `,
       },
     });
-    await flushPromises();
-    expect(wrapper.text()).toMatch("Title test");
+    const titleText = await screen.findByText("Title test");
+    expect(titleText).toBeInTheDocument();
   });
   it("provides description to parent component", async () => {
     const data = { description: "Some description" };
     mockSpotlightResponse(data);
-    const wrapper = mount(Spotlight, {
+    render(Spotlight, {
       slots: {
         default: `
         <template #default="slotProps">
@@ -61,7 +63,7 @@ describe("Spotlight", () => {
         `,
       },
     });
-    await flushPromises();
-    expect(wrapper.text()).toMatch("Some description");
+    const decription = await screen.findByText("Some description");
+    expect(decription).toBeInTheDocument();
   });
 });
