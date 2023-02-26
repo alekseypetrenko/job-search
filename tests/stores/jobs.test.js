@@ -16,6 +16,9 @@ describe("state", () => {
 });
 
 describe("actions", () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+  });
   describe("FETCH_JOBS", () => {
     it("makes API requets and store jobs", async () => {
       axios.get.mockResolvedValue({
@@ -31,6 +34,26 @@ describe("actions", () => {
         { id: 1, job: "Vue" },
         { id: 2, job: "React" },
       ]);
+    });
+  });
+});
+
+describe("getters", () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+  });
+
+  describe("UNIQUE_ORGANIZATIONS", () => {
+    it("finds unique organizations from lits state", () => {
+      const store = useJobsStore();
+      store.jobs = [
+        { organization: "Google" },
+        { organization: "Amazon" },
+        { organization: "Google" },
+      ];
+
+      const result = store.UNIQUE_ORGANIZATIONS;
+      expect(result).toEqual(new Set(["Google", "Amazon"]));
     });
   });
 });

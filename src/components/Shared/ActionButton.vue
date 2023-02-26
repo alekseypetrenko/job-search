@@ -4,35 +4,28 @@
   </button>
 </template>
 
-<script lang="ts">
-import { computed, toRefs, defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed, toRefs } from "vue";
 
-export default defineComponent({
-  name: "ActionButton",
-  props: {
-    text: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
-      required: false,
-      default: "primary",
-      validator: (value: string) => {
-        return ["primary", "secondary"].includes(value);
-      },
+const props = defineProps({
+  text: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: false,
+    default: "primary",
+    validator: (value: string) => {
+      return ["primary", "secondary"].includes(value);
     },
   },
+});
 
-  setup(props) {
-    const { type } = toRefs(props);
+const { type } = toRefs(props);
 
-    const buttonClass = computed(() => {
-      return { [type.value]: true };
-    });
-
-    return { buttonClass };
-  },
+const buttonClass = computed(() => {
+  return { [type.value]: true };
 });
 </script>
 
@@ -42,10 +35,10 @@ button {
 }
 
 .primary {
-  @apply rounded text-white bg-brand-blue-1 hover:shadow-blue;
+  @apply rounded bg-brand-blue-1 text-white hover:shadow-blue;
 }
 
 .secondary {
-  @apply text-brand-blue-1 bg-transparent hover:bg-brand-blue-2 hover:text-white;
+  @apply bg-transparent text-brand-blue-1 hover:bg-brand-blue-2 hover:text-white;
 }
 </style>
