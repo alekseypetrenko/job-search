@@ -6,7 +6,7 @@
 
         <div class="col-span-5 col-start-2">
           <headline />
-          <!-- <job-search-form /> -->
+          <job-search-form />
         </div>
 
         <div class="col-span-5 col-start-7 self-center justify-self-center">
