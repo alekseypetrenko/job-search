@@ -38,8 +38,8 @@ import { useJobsStore } from "@/stores/jobs";
 import JobListing from "./JobListing.vue";
 import useCurrentPage from "@/composables/useCurrentPage";
 
-const jobStore = useJobsStore();
-onMounted(jobStore.FETCH_JOBS);
+const jobsStore = useJobsStore();
+onMounted(jobsStore.FETCH_JOBS);
 
 const currentPage = useCurrentPage();
 
@@ -50,11 +50,11 @@ const previousPage = computed(() => {
   return previousPage >= firstPage ? previousPage : undefined;
 });
 
-const jobs = computed(() => jobStore.ALL_JOBS);
+const FILTERED_JOBS = computed(() => jobsStore.FILTERED_JOBS);
 
 const nextPage = computed(() => {
   const nextPage = currentPage.value + 1;
-  const maxPage = Math.ceil(jobs.value.length / 10);
+  const maxPage = Math.ceil(FILTERED_JOBS.value.length / 10);
 
   return nextPage <= maxPage ? nextPage : undefined;
 });
@@ -64,6 +64,6 @@ const displayedJobs = computed(() => {
   const firstJobIndex = (pageNumber - 1) * 10;
   const lastJobIndex = pageNumber * 10;
 
-  return jobs.value.slice(firstJobIndex, lastJobIndex);
+  return FILTERED_JOBS.value.slice(firstJobIndex, lastJobIndex);
 });
 </script>
