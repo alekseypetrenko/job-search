@@ -1,7 +1,7 @@
 <template>
   <section class="mb-16">
     <h1
-      class="font-bold tracking-tighter text-8xl mb-14"
+      class="mb-14 text-8xl font-bold tracking-tighter"
       data-test="action-phrase"
     >
       <span :class="actionClasses">{{ action }}</span>
@@ -12,8 +12,8 @@
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import nextElementInList from "@/utils/nextElementInList";
 
 interface Data {
@@ -25,36 +25,24 @@ interface ActionClasses {
   [x: string]: boolean;
 }
 
-export default defineComponent({
-  name: "Headline",
-  data(): Data {
-    return {
-      action: "Build",
-      interval: undefined,
-    };
-  },
-  computed: {
-    actionClasses(): ActionClasses {
-      return {
-        [this.action.toLowerCase()]: true,
-      };
-    },
-  },
-  created() {
-    this.changeTitle();
-  },
-  beforeUnmount() {
-    clearInterval(this.interval);
-  },
-  methods: {
-    changeTitle() {
-      this.interval = setInterval(() => {
-        const actions = ["Build", "Create", "Design", "Code"];
-        this.action = nextElementInList(actions, this.action);
-      }, 1000);
-    },
-  },
+const action = ref("Build");
+const interval = ref<ReturnType<typeof setInterval>>();
+
+const actionClasses = computed(() => {
+  return {
+    [action.value.toLowerCase()]: true,
+  };
 });
+
+const changeTitle = () => {
+  interval.value = setInterval(() => {
+    const actions = ["Build", "Create", "Design", "Code"];
+    action.value = nextElementInList(actions, action.value);
+  }, 1000);
+};
+
+onMounted(changeTitle);
+onBeforeUnmount(() => clearInterval(interval.value));
 </script>
 
 <style scoped>

@@ -1,14 +1,14 @@
-// import { mount, flushPromises } from "@vue/test-utils";
+import type { Mock } from "vitest";
 import { render, screen } from "@testing-library/vue";
 import axios from "axios";
 vi.mock("axios");
-// const axiosGetMock = axios.get as jest.Mock;
+const axiosGetMock = axios.get as Mock;
 
 import Spotlight from "@/components/JobSearch/Spotlight.vue";
 
 describe("Spotlight", () => {
   const mockSpotlightResponse = (data = {}) => {
-    axios.get.mockResolvedValue({
+    axiosGetMock.mockResolvedValue({
       data: [
         {
           img: "Some image",
@@ -32,7 +32,6 @@ describe("Spotlight", () => {
         `,
       },
     });
-    // await flushPromises();
     const imageText = await screen.findByText("Some Image test");
     expect(imageText).toBeInTheDocument();
   });

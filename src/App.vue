@@ -3,14 +3,6 @@
   <router-view />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
 import MainNav from "@/components/Navigation/MainNav.vue";
-
-export default defineComponent({
-  name: "App",
-  components: {
-    MainNav,
-  },
-});
 </script>
