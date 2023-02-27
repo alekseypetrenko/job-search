@@ -1,45 +1,41 @@
-import { mount } from "@vue/test-utils";
+import { render, screen } from "@testing-library/vue";
+import userEvent from "@testing-library/user-event";
+
 import Accordion from "@/components/Shared/Accordion.vue";
 
 describe("Accordion", () => {
-  const createConfig = (config = {}) => ({
-    global: {
-      stubs: {
-        FontAwesomeIcon: true,
+  const renderSlot = (config = {}) => {
+    render(Accordion, {
+      global: {
+        stubs: {
+          FontAwesomeIcon: true,
+        },
       },
-    },
-    props: {
-      header: "Test",
-    },
-    slots: {
-      default: "<h3>nested child</h3>",
-    },
-    ...config,
-  });
-
-  it("renders child", async () => {
-    const slots = {
-      default: "<h3>another nested child</h3>",
-    };
-    const config = { slots };
-    const wrapper = mount(Accordion, createConfig(config));
-
-    expect(wrapper.text()).not.toMatch("another nested child");
-
-    const clickableArea = wrapper.find('[data-test="clickable-area"]');
-    await clickableArea.trigger("click");
-    expect(wrapper.text()).toMatch("another nested child");
+      props: {
+        header: "Test",
+      },
+      slots: {
+        default: "<h3>nested child</h3>",
+      },
+      ...config,
+    });
+  };
+  it("renders child content", async () => {
+    renderSlot();
+    expect(screen.queryByText("nested child")).not.toBeInTheDocument();
+    const button = screen.getByRole("button", { name: /Test/i });
+    await userEvent.click(button);
+    expect(screen.queryByText("nested child")).toBeInTheDocument();
   });
 
   describe("when we do not provide custom child content", () => {
     it("renders default content", async () => {
       const slots = {};
       const config = { slots };
-      const wrapper = mount(Accordion, createConfig(config));
-
-      const clickableArea = wrapper.find('[data-test="clickable-area"]');
-      await clickableArea.trigger("click");
-      expect(wrapper.text()).toMatch("Default text");
+      renderSlot(config);
+      const button = screen.getByRole("button", { name: /Test/i });
+      await userEvent.click(button);
+      expect(screen.queryByText("Default text")).toBeInTheDocument();
     });
   });
 });

@@ -3,7 +3,7 @@
     <input
       v-model="skillsSearchTerm"
       type="text"
-      class="p-3 h-12 border border-solid border-brand-gray-1 shadow-gray rounded w-full text-base"
+      class="h-12 w-full rounded border border-solid border-brand-gray-1 p-3 text-base shadow-gray"
       placeholder="Computed programming, Finance degree"
     />
   </div>
@@ -13,7 +13,6 @@
 import { defineComponent } from "vue";
 
 import { computed } from "vue";
-import { useStore } from "vuex";
 import { key } from "@/store";
 import { UPDATE_SKILLS_SEARCH_TERM } from "@/store/constants";
 
@@ -21,8 +20,6 @@ export default defineComponent({
   name: "JobFilterSidebarSkills",
 
   setup() {
-    const store = useStore(key);
-
     const skillsSearchTerm = computed({
       get() {
         return store.state.skillsSearchTerm;

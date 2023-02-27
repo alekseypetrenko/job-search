@@ -1,77 +1,118 @@
-import { shallowMount } from "@vue/test-utils";
-import { useStore } from "vuex";
-jest.mock("vuex");
-const useStoreMock = useStore as jest.Mock;
-
+import type { Mock } from "vitest";
+import { render, screen } from "@testing-library/vue";
+import userEvent from "@testing-library/user-event";
+import { createTestingPinia } from "@pinia/testing";
 import { useRouter } from "vue-router";
-jest.mock("vue-router");
-const useRouterMock = useRouter as jest.Mock;
+vi.mock("vue-router");
 
 import JobFiltersSidebarCheckboxGroup from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarCheckboxGroup.vue";
+import { useUserStore } from "@/stores/user";
+
+const useRouterMock = useRouter as Mock;
 
 describe("JobFiltersSidebarCheckboxGroup", () => {
-  const createConfig = (props = {}) => ({
-    props: {
-      uniqueValues: new Set(["ValueA", "ValueB"]),
-      mutation: "Some mutation",
-      ...props,
-    },
+  interface JobFiltersSidebarCheckboxGroupProps {
+    uniqueValues: Set<string>;
+    action: Mock;
+  }
+
+  const createProps = (
+    props: Partial<JobFiltersSidebarCheckboxGroupProps> = {}
+  ): JobFiltersSidebarCheckboxGroupProps => ({
+    uniqueValues: new Set(["ValueA", "ValueB"]),
+    action: vi.fn(),
+    ...props,
   });
 
-  it("renders uniq list of job types", async () => {
-    useStoreMock.mockReturnValue({ commit: jest.fn(), subscribe: jest.fn() });
+  const renderJobFiltersSidebarCheckboxGroup = (
+    props: JobFiltersSidebarCheckboxGroupProps
+  ) => {
+    const pinia = createTestingPinia({ stubActions: false });
+    const userStore = useUserStore();
 
-    const props = {
-      uniqueValues: new Set(["ValueA", "ValueB"]),
-    };
-    const wrapper = shallowMount(
-      JobFiltersSidebarCheckboxGroup,
-      createConfig(props),
-    );
-    const inputTypesLabels = wrapper.findAll("[data-test='value']");
-    const inputValues = inputTypesLabels.map((node) => node.text());
-    expect(inputValues).toEqual(["ValueA", "ValueB"]);
-  });
-
-  describe("when user click checkbox", () => {
-    it("communicates that user has selected checkbox for value", async () => {
-      const commit = jest.fn();
-      useStoreMock.mockReturnValue({ commit, subscribe: jest.fn() });
-      useRouterMock.mockReturnValue({ push: jest.fn() });
-
-      const props = {
-        mutation: "SOME_MUTATION",
-        uniqueValues: new Set(["Full-time"]),
-      };
-
-      const wrapper = shallowMount(
-        JobFiltersSidebarCheckboxGroup,
-        createConfig(props),
-      );
-
-      const fullTimeInput = wrapper.find("[data-test='Full-time']");
-      await fullTimeInput.setValue(true);
-
-      expect(commit).toHaveBeenCalledWith("SOME_MUTATION", ["Full-time"]);
+    render(JobFiltersSidebarCheckboxGroup, {
+      props: {
+        ...props,
+      },
+      global: {
+        plugins: [pinia],
+      },
     });
 
-    it("navigates user to the first page", async () => {
-      const push = jest.fn();
+    return { userStore };
+  };
+
+  it("renders unique list of values", () => {
+    const props = createProps({
+      uniqueValues: new Set(["Full-time", "Part-time"]),
+    });
+    renderJobFiltersSidebarCheckboxGroup(props);
+
+    const jobTypesListItems = screen.getAllByRole("listitem");
+    const jobTypes = jobTypesListItems.map((node) => node.textContent);
+    expect(jobTypes).toEqual(["Full-time", "Part-time"]);
+  });
+
+  describe("when user clicks checkbox", () => {
+    it("communicates that user has selected checkbox for value", async () => {
+      useRouterMock.mockReturnValue({ push: vi.fn() });
+      const action = vi.fn();
+      const props = createProps({
+        uniqueValues: new Set(["Full-time", "Part-time"]),
+        action,
+      });
+      renderJobFiltersSidebarCheckboxGroup(props);
+
+      const fullTimeCheckbox = screen.getByRole("checkbox", {
+        name: /full-time/i,
+      });
+      await userEvent.click(fullTimeCheckbox);
+
+      expect(action).toHaveBeenCalledWith(["Full-time"]);
+    });
+
+    it("navigates user to job results page to see fresh batch of filtered jobs", async () => {
+      const push = vi.fn();
       useRouterMock.mockReturnValue({ push });
-
-      const props = {
+      const props = createProps({
         uniqueValues: new Set(["Full-time"]),
-      };
+      });
+      renderJobFiltersSidebarCheckboxGroup(props);
 
-      const wrapper = shallowMount(
-        JobFiltersSidebarCheckboxGroup,
-        createConfig(props),
-      );
-
-      const fullTimeInput = wrapper.find("[data-test='Full-time']");
-      await fullTimeInput.setValue(true);
+      const fullTimeCheckbox = screen.getByRole("checkbox", {
+        name: /full-time/i,
+      });
+      await userEvent.click(fullTimeCheckbox);
 
       expect(push).toHaveBeenCalledWith({ name: "JobResults" });
+    });
+  });
+
+  describe("when user clears job filters", () => {
+    it("unchecks any checked checkboxes", async () => {
+      useRouterMock.mockReturnValue({ push: vi.fn() });
+      const props = createProps({
+        uniqueValues: new Set(["Full-time"]),
+      });
+      const { userStore } = renderJobFiltersSidebarCheckboxGroup(props);
+
+      const fullTimeCheckboxBeforeAction = screen.getByRole<HTMLInputElement>(
+        "checkbox",
+        {
+          name: /full-time/i,
+        }
+      );
+      await userEvent.click(fullTimeCheckboxBeforeAction);
+
+      expect(fullTimeCheckboxBeforeAction.checked).toBe(true);
+
+      userStore.CLEAR_USER_JOB_FILTER_SELECTIONS();
+
+      const fullTimeCheckboxAfterAction =
+        await screen.findByRole<HTMLInputElement>("checkbox", {
+          name: /full-time/i,
+        });
+      expect(fullTimeCheckboxAfterAction.checked).toBe(false);
     });
   });
 });

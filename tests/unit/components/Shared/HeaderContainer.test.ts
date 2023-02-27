@@ -1,24 +1,25 @@
-import { mount } from "@vue/test-utils";
+import { render, screen } from "@testing-library/vue";
+
 import HeaderContainer from "@/components/Shared/HeaderContainer.vue";
 
 describe("HeaderContainer", () => {
-  it("alows parent container to provide title content", () => {
-    const wrapper = mount(HeaderContainer, {
+  it("allows parent component to provide title content", () => {
+    render(HeaderContainer, {
       slots: {
-        title: "<h1>H1 Title</h1>",
+        title: "<h2>Some title</h2>",
       },
     });
 
-    expect(wrapper.text()).toMatch("H1 Title");
+    expect(screen.getByText("Some title")).toBeInTheDocument();
   });
 
-  it("alows parent container to provide sub title content", () => {
-    const wrapper = mount(HeaderContainer, {
+  it("allows parent component to provide subtitle content", () => {
+    render(HeaderContainer, {
       slots: {
-        subtitle: "<h1>SUB Title</h1>",
+        subtitle: "<h3>Some subtitle</h3>",
       },
     });
 
-    expect(wrapper.text()).toMatch("SUB Title");
+    expect(screen.getByText("Some subtitle")).toBeInTheDocument();
   });
 });

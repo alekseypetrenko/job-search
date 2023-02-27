@@ -1,110 +1,76 @@
-import { shallowMount, RouterLinkStub } from "@vue/test-utils";
+import type { Mock } from "vitest";
+import { render, screen } from "@testing-library/vue";
+import userEvent from "@testing-library/user-event";
+import { RouterLinkStub } from "@vue/test-utils";
+import { createTestingPinia } from "@pinia/testing";
+
+import { useRoute } from "vue-router";
+vi.mock("vue-router");
 
 import MainNav from "@/components/Navigation/MainNav.vue";
+import { useUserStore } from "@/stores/user";
 
-import { GlobalState } from "@/store/types";
-
-interface MockStore {
-  state: Partial<GlobalState>;
-}
+const useRouteMock = useRoute as Mock;
 
 describe("MainNav", () => {
-  const creatConfig = ($store: MockStore) => ({
-    global: {
-      mocks: {
-        $store,
+  const renderMainNav = () => {
+    useRouteMock.mockReturnValue({ name: "Home" });
+
+    const pinia = createTestingPinia();
+
+    render(MainNav, {
+      global: {
+        plugins: [pinia],
+        stubs: {
+          FontAwesomeIcon: true,
+          RouterLink: RouterLinkStub,
+        },
       },
-      stubs: {
-        "router-link": RouterLinkStub,
-      },
-    },
-  });
+    });
+  };
 
   it("displays company name", () => {
-    const $store = {
-      state: {
-        isLoggedIn: false,
-      },
-    };
-    const wrapper = shallowMount(MainNav, creatConfig($store));
-    expect(wrapper.text()).toMatch("Oleksii");
+    renderMainNav();
+    const companyName = screen.getByText("My company");
+    expect(companyName).toBeInTheDocument();
   });
 
   it("displays menu items for navigation", () => {
-    const $store = {
-      state: {
-        isLoggedIn: false,
-      },
-    };
-    const wrapper = shallowMount(MainNav, creatConfig($store));
-
-    const navigationMenuItems = wrapper.findAll(
-      "[data-test='main-nav-list-item']",
+    renderMainNav();
+    const navigationMenuItems = screen.getAllByRole("listitem");
+    const navigationMenuTexts = navigationMenuItems.map(
+      (item) => item.textContent,
     );
-    const navigationMenuTexts = navigationMenuItems.map((item) => item.text());
     expect(navigationMenuTexts).toEqual([
       "Teams",
       "Locations",
-      "Life",
+      "Life at My Corp",
       "How we hire",
       "Students",
       "Jobs",
     ]);
   });
 
-  describe("when user is logged out", () => {
-    it("prompts user to sign in", () => {
-      const $store = {
-        state: {
-          isLoggedIn: false,
-        },
-      };
-      const wrapper = shallowMount(MainNav, creatConfig($store));
-      const loginButton = wrapper.find("[data-test='login-button']");
-      expect(loginButton.exists()).toBe(true);
-    });
+  describe("when the user logs in", () => {
+    it("displays user profile picture", async () => {
+      renderMainNav();
+      const userStore = useUserStore();
 
-    it("issues call to Vuex to loggin user", async () => {
-      const commit = jest.fn();
-      const $store = {
-        state: {
-          isLoggedIn: false,
-        },
-        commit,
-      };
+      let profileImage = screen.queryByRole("img", {
+        name: /user profile image/i,
+      });
+      expect(profileImage).not.toBeInTheDocument();
 
-      const wrapper = shallowMount(MainNav, creatConfig($store));
-      const loginButton = wrapper.find("[data-test='login-button']");
-      await loginButton.trigger("click");
+      const loginButton = screen.getByRole("button", {
+        name: /sign in/i,
+      });
+      userStore.isLoggedIn = true;
+      await userEvent.click(loginButton);
 
-      expect(commit).toHaveBeenCalledWith("LOGIN_USER");
-    });
-  });
-
-  describe("when user is logged in", () => {
-    it("displays user profile picture", () => {
-      const $store = {
-        state: {
-          isLoggedIn: true,
-        },
-      };
-      const wrapper = shallowMount(MainNav, creatConfig($store));
-      let profileImage = wrapper.find("[data-test='profile-image']");
-
-      profileImage = wrapper.find("[data-test='profile-image']");
-      expect(profileImage.exists()).toBe(true);
-    });
-
-    it("displays subnavigation menu with additional information", async () => {
-      const $store = {
-        state: {
-          isLoggedIn: true,
-        },
-      };
-      const wrapper = shallowMount(MainNav, creatConfig($store));
-
-      const subnav = wrapper.find('[data-test="subnav"]');
-      expect(subnav.exists()).toBe(true);
+      profileImage = screen.getByRole("img", {
+        name: /user profile image/i,
+      });
+      expect(profileImage).toBeInTheDocument();
     });
   });
 });

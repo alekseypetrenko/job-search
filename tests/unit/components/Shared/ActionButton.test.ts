@@ -1,26 +1,33 @@
-import { mount } from "@vue/test-utils";
+import { render, screen } from "@testing-library/vue";
+
 import ActionButton from "@/components/Shared/ActionButton.vue";
 
 describe("ActionButton", () => {
   it("renders text", () => {
-    const wrapper = mount(ActionButton, {
+    render(ActionButton, {
       props: {
-        text: "I am text",
-      },
-    });
-
-    expect(wrapper.text()).toMatch("I am text");
-  });
-
-  it("applies one of several css style to the button", () => {
-    const wrapper = mount(ActionButton, {
-      props: {
-        text: "I am text",
+        text: "Click me",
         type: "primary",
       },
     });
 
-    const button = wrapper.find("button");
-    expect(button.classes("primary")).toBe(true);
+    const button = screen.getByRole("button", {
+      name: /click me/i,
+    });
+    expect(button).toBeInTheDocument();
+  });
+
+  it("applies one of several styles to button", () => {
+    render(ActionButton, {
+      props: {
+        text: "Click me",
+        type: "primary",
+      },
+    });
+
+    const button = screen.getByRole("button", {
+      name: /click me/i,
+    });
+    expect(button).toHaveClass("primary");
   });
 });

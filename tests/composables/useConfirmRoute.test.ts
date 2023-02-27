@@ -1,9 +1,9 @@
 import { useRoute } from "vue-router";
-jest.mock("vue-router");
+vi.mock("vue-router");
 
 import useConfirmRoute from "@/composables/useConfirmRoute";
 
-const useRouteMock = useRoute as jest.Mock;
+const useRouteMock = useRoute as vi.Mock;
 
 describe("useConfirmRoute", () => {
   it("determines if page route macthes soecified route", () => {

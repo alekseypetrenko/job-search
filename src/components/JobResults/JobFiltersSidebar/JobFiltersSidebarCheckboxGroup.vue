@@ -2,61 +2,53 @@
   <div class="mt-5">
     <fieldset>
       <ul class="flex flex-row flex-wrap">
-        <li v-for="value in uniqueValues" :key="value" class="w-1/2 h-8">
+        <li v-for="value in uniqueValues" :key="value" class="h-8 w-1/2">
           <input
             :id="value"
             v-model="selectedValues"
             :value="value"
-            class="mr-3"
-            :data-test="value"
             type="checkbox"
+            class="mr-3"
             @change="selectValue"
           />
-          <label :for="value" data-test="value">{{ value }}</label>
+          <label :for="value">{{ value }}</label>
         </li>
       </ul>
     </fieldset>
   </div>
 </template>
 
-<script lang="ts">
-import { ref, defineComponent, PropType } from "vue";
-import { useStore } from "vuex";
+<script lang="ts" setup>
+import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { key } from "@/store";
 
-import { CLEAR_USER_JOB_FILTER_SELECTIONS } from "@/store/constants";
+import { useUserStore, CLEAR_USER_JOB_FILTER_SELECTIONS } from "@/stores/user";
 
-export default defineComponent({
-  name: "JobFiltersSidebarCheckboxGroup",
-  props: {
-    uniqueValues: {
-      type: [Array, Set] as PropType<string[] | Set<string>>,
-      required: true,
-    },
-    mutation: {
-      type: String,
-      required: true,
-    },
+const props = defineProps({
+  uniqueValues: {
+    type: [Set<string>, Array<string>],
+    required: true,
   },
-  setup(props) {
-    const store = useStore(key);
-    const router = useRouter();
-
-    const selectedValues = ref<string[]>([]);
-
-    store.subscribe((mutation) => {
-      if (mutation.type === CLEAR_USER_JOB_FILTER_SELECTIONS) {
-        selectedValues.value = [];
-      }
-    });
-
-    const selectValue = () => {
-      store.commit(props.mutation, selectedValues.value);
-      router.push({ name: "JobResults" });
-    };
-
-    return { selectedValues, selectValue };
+  action: {
+    type: Function,
+    required: true,
   },
+});
+
+const selectedValues = ref<string[]>([]);
+const router = useRouter();
+
+const selectValue = () => {
+  props.action(selectedValues.value);
+  router.push({ name: "JobResults" });
+};
+
+const userStore = useUserStore();
+userStore.$onAction(({ after, name }) => {
+  after(() => {
+    if (name === CLEAR_USER_JOB_FILTER_SELECTIONS) {
+      selectedValues.value = [];
+    }
+  });
 });
 </script>

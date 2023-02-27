@@ -1,21 +1,21 @@
-import { mount } from "@vue/test-utils";
+import type { Mock } from "vitest";
+import { render, screen } from "@testing-library/vue";
+import userEvent from "@testing-library/user-event";
+
 import { useRouter } from "vue-router";
-jest.mock("vue-router");
-const useRouterMock = useRouter as jest.Mock;
+vi.mock("vue-router");
 
 import JobSearchForm from "@/components/JobSearch/JobSearchForm.vue";
 
+const useRouterMock = useRouter as Mock;
+
 describe("JobSearchForm", () => {
-  describe("when user submit form", () => {
-    it("directs user to the job results page with search parameters", async () => {
-      const push = jest.fn();
+  describe("when user submits form", () => {
+    it("directs user to job results page with user's search parameters", async () => {
+      const push = vi.fn();
+      useRouterMock.mockReturnValue({ push });
 
-      useRouterMock.mockReturnValue({
-        push,
-      });
-
-      const wrapper = mount(JobSearchForm, {
-        attachTo: document.body,
+      render(JobSearchForm, {
         global: {
           stubs: {
             FontAwesomeIcon: true,
@@ -23,21 +23,24 @@ describe("JobSearchForm", () => {
         },
       });
 
-      const roleInput = wrapper.find("[data-test='role-input']");
-      await roleInput.setValue("Vue Developer");
+      const roleInput = screen.getByRole("textbox", {
+        name: /role/i,
+      });
+      await userEvent.type(roleInput, "Vue Developer");
 
-      const locationInput = wrapper.find("[data-test='location-input']");
-      await locationInput.setValue("Dallas");
+      const locationInput = screen.getByRole("textbox", {
+        name: /where?/i,
+      });
+      await userEvent.type(locationInput, "Dallas");
 
-      const submitButton = wrapper.find("[data-test='form-submit-button']");
-      await submitButton.trigger("click");
+      const submitButton = screen.getByRole("button", {
+        name: /search/i,
+      });
+      await userEvent.click(submitButton);
 
       expect(push).toHaveBeenCalledWith({
         name: "JobResults",
-        query: {
-          role: "Vue Developer",
-          location: "Dallas",
-        },
+        query: { role: "Vue Developer", location: "Dallas" },
       });
     });
   });

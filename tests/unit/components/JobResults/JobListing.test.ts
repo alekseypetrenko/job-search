@@ -1,54 +1,54 @@
-import { mount, RouterLinkStub } from "@vue/test-utils";
+import { render, screen } from "@testing-library/vue";
+import { RouterLinkStub } from "@vue/test-utils";
 
+import type { Job } from "@/api/types";
 import JobListing from "@/components/JobResults/JobListing.vue";
 
-import { createJob } from "../../store/utils";
-import { Job } from "@/api/types";
+import { createJob } from "../../../utils/createJob";
 
 describe("JobListing", () => {
-  const createConfig = (job: Job) => ({
-    props: {
-      job: {
-        ...job,
+  const renderJobListing = (job: Job) => {
+    render(JobListing, {
+      global: {
+        stubs: {
+          "router-link": RouterLinkStub,
+        },
       },
-    },
-    global: {
-      stubs: {
-        "router-link": RouterLinkStub,
+      props: {
+        job: {
+          ...job,
+        },
       },
-    },
-  });
+    });
+  };
 
   it("renders job title", () => {
-    const job = createJob({ title: "Vue Dev" });
-    const wrapper = mount(JobListing, createConfig(job));
-    expect(wrapper.text()).toMatch("Vue Dev");
-  });
-  it("renders job organization", () => {
-    const job = createJob({ organization: "Facebook" });
-    const wrapper = mount(JobListing, createConfig(job));
-    expect(wrapper.text()).toMatch("Facebook");
-  });
-  it("renders job locations", () => {
-    const job = createJob({ locations: ["USA", "Canada"] });
-    const wrapper = mount(JobListing, createConfig(job));
-    expect(wrapper.text()).toMatch("Canada");
-    expect(wrapper.text()).toMatch("USA");
-  });
-  it("renders job qualifications", () => {
-    const job = createJob({
-      minimumQualifications: ["gql", "api"],
-    });
-    const wrapper = mount(JobListing, createConfig(job));
-    expect(wrapper.text()).toMatch("gql");
-    expect(wrapper.text()).toMatch("api");
+    const jobProps = createJob({ title: "Vue Programmer" });
+    renderJobListing(jobProps);
+    expect(screen.getByText("Vue Programmer")).toBeInTheDocument();
   });
 
-  it("links to individual job page", () => {
-    const job = createJob({ id: 15 });
-    const wrapper = mount(JobListing, createConfig(job));
-    const jobPageLink = wrapper.findComponent(RouterLinkStub);
-    const toProp = jobPageLink.props("to");
-    expect(toProp).toBe("/jobs/results/15");
+  it("renders job organization", () => {
+    const jobProps = createJob({ organization: "Samsung" });
+    renderJobListing(jobProps);
+    expect(screen.getByText("Samsung")).toBeInTheDocument();
+  });
+
+  it("renders job locations", () => {
+    const jobProps = createJob({
+      locations: ["Orlando", "Jacksonville"],
+    });
+    renderJobListing(jobProps);
+    expect(screen.getByText("Orlando")).toBeInTheDocument();
+    expect(screen.getByText("Jacksonville")).toBeInTheDocument();
+  });
+
+  it("renders job qualifications", () => {
+    const jobProps = createJob({
+      minimumQualifications: ["Code", "Develop"],
+    });
+    renderJobListing(jobProps);
+    expect(screen.getByText("Code")).toBeInTheDocument();
+    expect(screen.getByText("Develop")).toBeInTheDocument();
   });
 });

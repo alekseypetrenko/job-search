@@ -11,13 +11,6 @@ export interface Job {
   dateAdded: string;
 }
 
-export interface Spotlight {
-  id: number;
-  img: string;
-  title: string;
-  description: string;
-}
-
 export interface Degree {
   id: number;
   degree: string;

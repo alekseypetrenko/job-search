@@ -1,23 +1,25 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faSearch,
   faAngleDown,
   faAngleUp,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 
-import App from "./App.vue";
-import "@/assets/tailwind.css";
+import "@/index.css";
 import router from "@/router";
-import store, { key } from "@/store";
+import App from "@/App.vue";
 
-library.add(faSearch);
 library.add(faAngleDown);
 library.add(faAngleUp);
+library.add(faSearch);
+
+const pinia = createPinia();
 
 createApp(App)
-  .use(store, key)
+  .use(pinia)
   .use(router)
-  .component("FontAwesomeIcon", FontAwesomeIcon)
+  .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");

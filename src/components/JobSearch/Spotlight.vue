@@ -10,28 +10,25 @@
   </ul>
 </template>
 
-<script lang="ts">
-import { ref, onMounted, defineComponent } from "vue";
+<script lang="ts" setup>
+import { ref, onMounted } from "vue";
 import axios from "axios";
-import { Spotlight } from "@/api/types";
 
-export default defineComponent({
-  name: "Spotlight",
-  setup() {
-    const spotlights = ref<Spotlight[]>([]);
+interface Spotlight {
+  id: number;
+  img: string;
+  title: string;
+  description: string;
+}
 
-    const getSpotlights = async () => {
-      const baseUrl = process.env.VUE_APP_API_URL;
-      const url = `${baseUrl}/spotlights`;
-      const response = await axios.get(url);
-      spotlights.value = response?.data;
-    };
+const spotlights = ref<Spotlight[]>([]);
 
-    onMounted(getSpotlights);
+const getSpotlights = async () => {
+  const baseUrl = import.meta.env.VITE_APP_API_URL;
+  const url = `${baseUrl}/spotlights`;
+  const response = await axios.get<Spotlight[]>(url);
+  spotlights.value = response.data;
+};
 
-    return {
-      spotlights,
-    };
-  },
-});
+onMounted(getSpotlights);
 </script>
