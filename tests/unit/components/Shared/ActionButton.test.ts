@@ -6,30 +6,28 @@ describe("ActionButton", () => {
   it("renders text", () => {
     render(ActionButton, {
       props: {
-        text: "I am text",
+        text: "Click me",
         type: "primary",
       },
     });
 
     const button = screen.getByRole("button", {
-      name: /I am text/i,
+      name: /click me/i,
     });
-
     expect(button).toBeInTheDocument();
   });
 
-  it("applies one of several css style to the button", () => {
+  it("applies one of several styles to button", () => {
     render(ActionButton, {
       props: {
-        text: "I am text",
+        text: "Click me",
         type: "primary",
       },
     });
 
     const button = screen.getByRole("button", {
-      name: /I am text/i,
+      name: /click me/i,
     });
-
     expect(button).toHaveClass("primary");
   });
 });

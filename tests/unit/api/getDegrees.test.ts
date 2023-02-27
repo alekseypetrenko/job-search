@@ -1,8 +1,11 @@
+import type { Mock } from "vitest";
 import axios from "axios";
-jest.mock("axios");
 
 import getDegrees from "@/api/getDegrees";
-const axiosGetMock = axios.get as jest.Mock;
+
+vi.mock("axios");
+
+const axiosGetMock = axios.get as Mock;
 
 describe("getDegrees", () => {
   beforeEach(() => {
@@ -10,23 +13,23 @@ describe("getDegrees", () => {
       data: [
         {
           id: 1,
-          degree: "Associate",
+          degree: "Master's",
         },
       ],
     });
   });
 
-  it("fethes degrees that candidate can apply to", async () => {
+  it("fetches degrees that candidates can apply to", async () => {
     await getDegrees();
-    expect(axiosGetMock).toHaveBeenCalledWith("http://myfakeapi.com/degrees");
+    expect(axios.get).toHaveBeenCalledWith("http://myfakeapi.com/degrees");
   });
 
   it("extracts degrees from response", async () => {
-    const data = await getDegrees();
-    expect(data).toEqual([
+    const degrees = await getDegrees();
+    expect(degrees).toEqual([
       {
         id: 1,
-        degree: "Associate",
+        degree: "Master's",
       },
     ]);
   });

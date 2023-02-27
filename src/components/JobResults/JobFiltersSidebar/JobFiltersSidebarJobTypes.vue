@@ -1,26 +1,20 @@
 <template>
-  <JobFiltersSidebarCheckboxGroup
-    :unique-values="uniqueJobTypes"
-    :mutation="ADD_SELECTED_JOB_TYPES"
-    data-test="job-types-filter"
+  <job-filters-sidebar-checkbox-group
+    :unique-values="UNIQUE_JOB_TYPES"
+    :action="userStore.ADD_SELECTED_JOB_TYPES"
   />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed } from "vue";
 
-import JobFiltersSidebarCheckboxGroup from "./JobFiltersSidebarCheckboxGroup.vue";
+import JobFiltersSidebarCheckboxGroup from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarCheckboxGroup.vue";
 
-import { useUniqueJobTypes } from "@/store/composables";
-import { ADD_SELECTED_JOB_TYPES } from "@/store/constants";
+import { useJobsStore } from "@/stores/jobs";
+import { useUserStore } from "@/stores/user";
 
-export default defineComponent({
-  name: "JobFiltersSidebarJobTypes",
-  components: { JobFiltersSidebarCheckboxGroup },
-  setup() {
-    const uniqueJobTypes = useUniqueJobTypes();
+const jobsStore = useJobsStore();
+const UNIQUE_JOB_TYPES = computed(() => jobsStore.UNIQUE_JOB_TYPES);
 
-    return { uniqueJobTypes, ADD_SELECTED_JOB_TYPES };
-  },
-});
+const userStore = useUserStore();
 </script>

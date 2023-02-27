@@ -1,32 +1,25 @@
 import { render, screen } from "@testing-library/vue";
-import userEvent from "@testing-library/user-event";
+
 import HeaderContainer from "@/components/Shared/HeaderContainer.vue";
 
 describe("HeaderContainer", () => {
-  const renderSlot = (config = {}) => {
+  it("allows parent component to provide title content", () => {
     render(HeaderContainer, {
       slots: {
-        default: "some text",
+        title: "<h2>Some title</h2>",
       },
-      ...config,
     });
-  };
-  it("alows parent container to provide title content", () => {
-    const slots = {
-      title: "<h2>I am title</h2>",
-    };
-    const config = { slots };
-    renderSlot(config);
 
-    expect(screen.getByText("I am title")).toBeInTheDocument();
+    expect(screen.getByText("Some title")).toBeInTheDocument();
   });
 
-  it("alows parent container to provide sub title content", () => {
-    const slots = {
-      subtitle: "<h1>SUB Title</h1>",
-    };
-    const config = { slots };
-    renderSlot(config);
-    expect(screen.getByText("SUB Title")).toBeInTheDocument();
+  it("allows parent component to provide subtitle content", () => {
+    render(HeaderContainer, {
+      slots: {
+        subtitle: "<h3>Some subtitle</h3>",
+      },
+    });
+
+    expect(screen.getByText("Some subtitle")).toBeInTheDocument();
   });
 });

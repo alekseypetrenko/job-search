@@ -1,9 +1,11 @@
 import axios from "axios";
-import { Degree } from "./types";
+
+import type { Degree } from "@/api/types";
 
 const getDegrees = async () => {
   const baseUrl = import.meta.env.VITE_APP_API_URL;
-  const response = await axios.get<Degree[]>(`${baseUrl}/degrees`);
+  const url = `${baseUrl}/degrees`;
+  const response = await axios.get<Degree[]>(url);
   return response.data;
 };
 

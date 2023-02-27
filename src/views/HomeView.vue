@@ -1,7 +1,7 @@
 <template>
-  <hero />
+  <the-hero />
 </template>
 
 <script lang="ts" setup>
-import Hero from "@/components/JobSearch/Hero.vue";
+import TheHero from "@/components/JobSearch/TheHero.vue";
 </script>

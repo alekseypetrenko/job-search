@@ -7,12 +7,11 @@
             :id="value"
             v-model="selectedValues"
             :value="value"
-            class="mr-3"
-            :data-test="value"
             type="checkbox"
+            class="mr-3"
             @change="selectValue"
           />
-          <label :for="value" data-test="value">{{ value }}</label>
+          <label :for="value">{{ value }}</label>
         </li>
       </ul>
     </fieldset>
@@ -20,33 +19,36 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, PropType } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-// import { CLEAR_USER_JOB_FILTER_SELECTIONS } from "@/store/constants";
+import { useUserStore, CLEAR_USER_JOB_FILTER_SELECTIONS } from "@/stores/user";
 
 const props = defineProps({
   uniqueValues: {
-    type: [Array, Set] as PropType<string[] | Set<string>>,
+    type: [Set<string>, Array<string>],
     required: true,
   },
   action: {
-    type: String,
+    type: Function,
     required: true,
   },
 });
 
-const router = useRouter();
 const selectedValues = ref<string[]>([]);
-
-// store.subscribe((mutation) => {
-//   if (mutation.type === CLEAR_USER_JOB_FILTER_SELECTIONS) {
-//     selectedValues.value = [];
-//   }
-// });
+const router = useRouter();
 
 const selectValue = () => {
   props.action(selectedValues.value);
   router.push({ name: "JobResults" });
 };
+
+const userStore = useUserStore();
+userStore.$onAction(({ after, name }) => {
+  after(() => {
+    if (name === CLEAR_USER_JOB_FILTER_SELECTIONS) {
+      selectedValues.value = [];
+    }
+  });
+});
 </script>

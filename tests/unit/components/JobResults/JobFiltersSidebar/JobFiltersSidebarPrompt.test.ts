@@ -1,18 +1,27 @@
-import { mount } from "@vue/test-utils";
+import { render, screen } from "@testing-library/vue";
+import userEvent from "@testing-library/user-event";
+import { createTestingPinia } from "@pinia/testing";
 
-const useStoreMock = useStore as jest.Mock;
+import { useUserStore } from "@/stores/user";
 
 import JobFiltersSidebarPrompt from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarPrompt.vue";
 
 describe("JobFiltersSidebarPrompt", () => {
-  describe("when user clicks clear filters button", () => {
-    it("send message to clear all users selection", async () => {
-      const commit = jest.fn();
-      useStoreMock.mockReturnValue({ commit });
-      const wrapper = mount(JobFiltersSidebarPrompt);
-      const button = wrapper.find("[data-test='clear-all-filters']");
-      await button.trigger("click");
-      expect(commit).toHaveBeenCalledWith("CLEAR_USER_JOB_FILTER_SELECTIONS");
+  describe("when user clicks Clear Filters button", () => {
+    it("sends message to clear all of user's job search filters", async () => {
+      const pinia = createTestingPinia();
+      const userStore = useUserStore();
+
+      render(JobFiltersSidebarPrompt, {
+        global: {
+          plugins: [pinia],
+        },
+      });
+
+      const button = screen.getByRole("button", { name: /clear filters/i });
+      await userEvent.click(button);
+
+      expect(userStore.CLEAR_USER_JOB_FILTER_SELECTIONS).toHaveBeenCalled();
     });
   });
 });

@@ -1,44 +1,57 @@
-import { mount } from "@vue/test-utils";
+import type { Mock } from "vitest";
+import { render, screen } from "@testing-library/vue";
+import { createTestingPinia } from "@pinia/testing";
 
-import { useFilteredJobs } from "@/store/composables";
-jest.mock("@/store/composables");
+import { useRoute } from "vue-router";
+vi.mock("vue-router");
 
-import Subnav from "@/components/Navigation/Subnav.vue";
-import useConfirmRoute from "@/composables/useConfirmRoute";
-jest.mock("@/composables/useConfirmRoute");
+import TheSubnav from "@/components/Navigation/TheSubnav.vue";
+import { useJobsStore } from "@/stores/jobs";
 
-const useConfirmRouteMock = useConfirmRoute as jest.Mock;
-const useFilteredJobsMock = useFilteredJobs as jest.Mock;
+const useRouteMock = useRoute as Mock;
 
-describe("Subnav", () => {
-  const createConfig = () => ({
-    global: {
-      stubs: {
-        FontAwesomeIcon: true,
+describe("TheSubnav", () => {
+  const renderTheSubnav = () => {
+    const pinia = createTestingPinia();
+    const jobsStore = useJobsStore();
+
+    render(TheSubnav, {
+      global: {
+        plugins: [pinia],
+        stubs: {
+          FontAwesomeIcon: true,
+        },
       },
-    },
-  });
+    });
 
-  describe("when the user is on job page", () => {
-    it("displays jobs count", () => {
-      useConfirmRouteMock.mockReturnValue(true);
-      useFilteredJobsMock.mockReturnValue([{ id: 1 }, { id: 2 }]);
+    return { jobsStore };
+  };
 
-      const wrapper = mount(Subnav, createConfig());
+  describe("when user is on jobs page", () => {
+    it("displays job count", async () => {
+      useRouteMock.mockReturnValue({ name: "JobResults" });
 
-      const jobCount = wrapper.find("[data-test='job-count']");
-      expect(jobCount.text()).toMatch("2 jobs matched");
+      const { jobsStore } = renderTheSubnav();
+      const numberOfJobs = 16;
+      // @ts-expect-error: Getter is read only
+      jobsStore.FILTERED_JOBS = Array(numberOfJobs).fill({});
+
+      const jobCount = await screen.findByText(numberOfJobs);
+      expect(jobCount).toBeInTheDocument();
     });
   });
-  describe("when the user is on Home page", () => {
-    it("does NOT display jobs count", () => {
-      useConfirmRouteMock.mockReturnValue(false);
-      useFilteredJobsMock.mockReturnValue([]);
 
-      const wrapper = mount(Subnav, createConfig());
+  describe("when user is not on jobs page", () => {
+    it("does NOT display job count", () => {
+      useRouteMock.mockReturnValue({ name: "Home" });
 
-      const jobCount = wrapper.find("[data-test='job-count']");
-      expect(jobCount.exists()).toBe(false);
+      const { jobsStore } = renderTheSubnav();
+      const numberOfJobs = 16;
+      // @ts-expect-error: Getter is read only
+      jobsStore.FILTERED_JOBS = Array(numberOfJobs).fill({});
+
+      const jobCount = screen.queryByText(numberOfJobs);
+      expect(jobCount).not.toBeInTheDocument();
     });
   });
 });

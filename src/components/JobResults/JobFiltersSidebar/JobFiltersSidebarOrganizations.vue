@@ -1,27 +1,20 @@
 <template>
-  <JobFiltersSidebarCheckboxGroup
-    header="Organizations"
-    :unique-values="uniqueOrganizations"
-    :mutation="ADD_SELECTED_ORGANIZATIONS"
-    data-test="organizations-filter"
+  <job-filters-sidebar-checkbox-group
+    :unique-values="UNIQUE_ORGANIZATIONS"
+    :action="userStore.ADD_SELECTED_ORGANIZATIONS"
   />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed } from "vue";
 
-import JobFiltersSidebarCheckboxGroup from "./JobFiltersSidebarCheckboxGroup.vue";
+import JobFiltersSidebarCheckboxGroup from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarCheckboxGroup.vue";
 
-import { useUniqueOrganizations } from "@/store/composables";
-import { ADD_SELECTED_ORGANIZATIONS } from "@/store/constants";
+import { useJobsStore } from "@/stores/jobs";
+import { useUserStore } from "@/stores/user";
 
-export default defineComponent({
-  name: "JobFiltersSidebarOrganizations",
-  components: { JobFiltersSidebarCheckboxGroup },
-  setup() {
-    const uniqueOrganizations = useUniqueOrganizations();
+const jobsStore = useJobsStore();
+const UNIQUE_ORGANIZATIONS = computed(() => jobsStore.UNIQUE_ORGANIZATIONS);
 
-    return { uniqueOrganizations, ADD_SELECTED_ORGANIZATIONS };
-  },
-});
+const userStore = useUserStore();
 </script>

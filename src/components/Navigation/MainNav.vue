@@ -1,5 +1,5 @@
 <template>
-  <header :class="['w-full', 'text-sm', headerHeight]">
+  <header :class="['w-full', 'text-sm', headerHeightClass]">
     <div class="fixed top-0 left-0 h-16 w-full bg-white">
       <div
         class="mx-auto flex h-full flex-nowrap border-b border-solid border-brand-gray-1 px-8"
@@ -7,16 +7,15 @@
         <router-link
           :to="{ name: 'Home' }"
           class="flex h-full items-center text-xl"
-          >My Company</router-link
-        >
+          >My company
+        </router-link>
 
         <nav class="ml-12 h-full">
-          <ul class="m-0 flex h-full list-none p-0">
+          <ul class="flex h-full list-none">
             <li
               v-for="menuItem in menuItems"
-              :key="menuItem.url"
+              :key="menuItem.text"
               class="ml-9 h-full first:ml-0"
-              data-test="main-nav-list-item"
             >
               <router-link
                 :to="menuItem.url"
@@ -28,42 +27,39 @@
         </nav>
 
         <div class="ml-auto flex h-full items-center">
-          <profile-image v-if="isLoggedIn" alt="User profile image" />
-          <action-button
-            v-else
-            text="Sign In"
-            data-test="login-button"
-            @click="loginUser()"
-          />
+          <profile-image v-if="isLoggedIn" />
+          <action-button v-else text="Sign in" @click="LOGIN_USER" />
         </div>
       </div>
-      <subnav v-if="isLoggedIn" data-test="subnav" />
+
+      <the-subnav v-if="isLoggedIn" />
     </div>
   </header>
 </template>
 
 <script lang="ts" setup>
-import ActionButton from "@/components/Shared/ActionButton.vue";
-import ProfileImage from "@/components/Navigation/ProfileImage.vue";
-import Subnav from "@/components/Navigation/Subnav.vue";
+import { computed, ref } from "vue";
 
 import { useUserStore } from "@/stores/user";
-import { ref, computed } from "vue";
+
+import ActionButton from "@/components/Shared/ActionButton.vue";
+import ProfileImage from "@/components/Navigation/ProfileImage.vue";
+import TheSubnav from "@/components/Navigation/TheSubnav.vue";
 
 const menuItems = ref([
   { text: "Teams", url: "/teams" },
   { text: "Locations", url: "/" },
-  { text: "Life", url: "/" },
+  { text: "Life at My Corp", url: "/" },
   { text: "How we hire", url: "/" },
   { text: "Students", url: "/" },
   { text: "Jobs", url: "/jobs/results" },
 ]);
 
 const userStore = useUserStore();
-const loginUser = userStore.loginUser;
+const LOGIN_USER = userStore.LOGIN_USER;
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 
-const headerHeight = computed(() => ({
+const headerHeightClass = computed(() => ({
   "h-16": !isLoggedIn.value,
   "h-32": isLoggedIn.value,
 }));

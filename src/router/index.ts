@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from "vue-router";
-const HomeView = () => import("@/views/HomeView.vue");
-const JobResults = () => import("@/views/JobResultsView.vue");
-const JobView = () =>
-  import(/* webpackChunkName: "jobs" */ "@/views/JobView.vue");
-const TeamsView = () => import("@/views/TeamsView.vue");
+import { createRouter, createWebHashHistory } from "vue-router";
+
+import HomeView from "@/views/HomeView.vue";
+import JobResultsView from "@/views/JobResultsView.vue";
+import JobView from "@/views/JobView.vue";
+import TeamsView from "@/views/TeamsView.vue";
 
 const routes = [
   {
@@ -14,7 +14,7 @@ const routes = [
   {
     path: "/jobs/results",
     name: "JobResults",
-    component: JobResults,
+    component: JobResultsView,
   },
   {
     path: "/jobs/results/:id",
@@ -29,14 +29,10 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
   scrollBehavior() {
-    return {
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    };
+    return { top: 0, left: 0, behavior: "smooth" };
   },
 });
 

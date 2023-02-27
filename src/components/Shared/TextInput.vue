@@ -1,7 +1,6 @@
 <template>
   <input
     type="text"
-    :placeholder="placeholder"
     :value="modelValue"
     class="w-full text-lg font-normal focus:outline-none"
     @input="handleInput"
@@ -10,11 +9,6 @@
 
 <script lang="ts" setup>
 defineProps({
-  placeholder: {
-    type: String,
-    required: false,
-    default: "",
-  },
   modelValue: {
     type: String,
     required: true,
